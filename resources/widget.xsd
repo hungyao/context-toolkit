@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!-- Generated using Flame-Ware Solutions XML-2-XSD v2.0 at http://www.flame-ware.com/Products/XML-2-XSD/ -->
+<xs:schema id="NewDataSet" targetNamespace="www.contexttoolkit.org/ctk" xmlns:tns="www.contexttoolkit.org/ctk" xmlns="www.contexttoolkit.org/ctk" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="Widget">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Attributes" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="min" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="max" type="xs:string" minOccurs="0" maxOccurs="1" />
+                  </xs:sequence>
+                  <xs:attribute name="constant" form="unqualified" type="xs:boolean" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" form="unqualified" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Widget" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
