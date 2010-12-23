@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	This declares the definition for a widget, but does not provide complete information to instantiate it.
+	Still needs an ID, and constant values
+ -->
+<Widget xmlns="http://www.contexttoolkit.org/ctk"
+		name="RoomWidget">
+		
+	<Attributes>
+		<!-- non-constant attributes -->
+		<Attribute name="presence" type="int">
+			<min>0</min>
+		</Attribute>
+		<Attribute name="brightness" type="short">
+			<min>0</min>
+			<max>100</max>
+		</Attribute>
+		
+		<!-- constant attributes -->
+		<Attribute name="room" type="string" constant="true" />
+	</Attributes>
+	
+</Widget>

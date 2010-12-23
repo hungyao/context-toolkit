@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Generator xmlns="www.contexttoolkit.org/ctk" name="RoomGenerator">
+
+	<!-- OutWidget needed to identify outcome attributes to assign values to -->
+	<OutWidget href="widgets/room-widget.xml" />
+	
+	<OutcomeName>RoomSensors</OutcomeName>
+	
+</Generator>

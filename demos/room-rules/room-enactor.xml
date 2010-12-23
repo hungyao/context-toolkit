@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Enactor xmlns="http://www.contexttoolkit.org/ctk" name="RoomEnactor">
+
+	<!-- InWidget needed to identify attributes referred to in rules -->
+	<InWidget  href="room-widget.xml" />
+	<!-- OutWidget needed to identify outcome attributes to assign values to -->
+	<OutWidget href="light-widget.xml" />
+	
+	<OutcomeName>light</OutcomeName>
+
+	<const name="brightnessThreshold" type="short">150</const>
+	<const name="brightnessMax" type="short">255</const>
+	
+	<Reference name="Off">
+		<Query name="lightOff">
+			(OR
+				(EQUAL presence 0)
+				(GREATER brightness brightnessThreshold)
+			)
+		</Query>
+		<Outcome outAttribute="light">0</Outcome>
+		<ServiceInput service="LightService" function="lightOff" />
+	</Reference>
+	
+	<Reference name="On">
+		<Query name="lightOn">
+			(ELSE 
+				(QUERY lightOff)
+			)
+		</Query>
+		<Outcome outAttribute="light">
+			10 * Math.pow(brightnessThreshold - brightness, 0.33) / Math.pow(brightnessThreshold, 0.33);
+		</Outcome>
+		<ServiceInput service="LightService" function="lightOn">
+			<Attribute name="light" />
+		</ServiceInput>
+	</Reference>
+	
+</Enactor>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Generator xmlns="www.contexttoolkit.org/ctk" name="RoomGenerator">
+	<OutWidget href="room-widget.xml" />
+	<OutcomeName>RoomSensors</OutcomeName>
+</Generator>

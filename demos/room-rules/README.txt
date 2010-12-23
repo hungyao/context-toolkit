@@ -1,0 +1,4 @@
+Outstanding Issues
+- Sometimes the subscription log gets corrupted from a poor shutdown previously, and this would cause exceptions to be thrown. While these are not serious, one way to eliminate them is to delete the /widget-subscriptions/ folder.
+- Sometimes when adjusting the brightness slider in the UI, the enactor response may be slow. This is also due to the subscription log being corrupted. Solution: also delete the folder.
+- The corruption, "stale-ness" or obsolescence of the subscription log also become problematic when prototyping the application with constantly evolving widgets and enactors.

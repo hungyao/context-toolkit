@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Service xmlns="www.contexttoolkit.org/ctk" name="LightService">
+	
+	<FunctionDescription synchronicity="synchronous">
+		<Description>Sets the light level of the lamp</Description>
+		<Function>
+			function lightOn(light) {
+				application.setLight(light);
+			}
+		</Function>
+	</FunctionDescription>
+	
+	<FunctionDescription synchronicity="synchronous">
+		<Description>Sets the light of the lamp to Off</Description>
+		<Function>
+			function lightOff() {
+				application.setLight(0);
+			}
+		</Function>
+	</FunctionDescription>
+	
+</Service>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Widget xmlns="http://www.contexttoolkit.org/ctk"
+		name="RoomWidget" type="classifier">
+		
+	<Attributes src="imautostatus-test.arff">
+	</Attributes>
+		
+	<Attributes>
+		<!-- constant attributes -->
+		<Attribute name="room" type="string" constant="true" />
+	</Attributes>
+	
+</Widget>

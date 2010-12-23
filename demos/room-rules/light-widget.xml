@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Widget xmlns="http://www.contexttoolkit.org/ctk" name="LightWidget">
+	<Attributes>
+		<!-- non-constant attributes -->
+		<Attribute name="light" type="int" />
+		<!-- constant attributes -->
+		<Attribute name="lamp" type="string" constant="true" />
+	</Attributes>
+</Widget>

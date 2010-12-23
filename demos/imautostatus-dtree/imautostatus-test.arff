@@ -1,0 +1,30 @@
+@relation 'IM_auto-status_intelligibility-weka.filters.unsupervised.attribute.Remove-R105-118,121-weka.filters.unsupervised.attribute.Remove-R106-weka.filters.supervised.attribute.AttributeSelection-Eweka.attributeSelection.ChiSquaredAttributeEval-Sweka.attributeSelection.Ranker -T -1.7976931348623157E308 -N 10-weka.filters.unsupervised.attribute.Remove-R3'
+
+%
+% Input features sensed from buddy's desktop
+%
+@attribute timeSinceLastOMsg numeric				% time since last outgoing message sent
+@attribute log(lastOMsg) numeric					% log of that time
+@attribute KBCountFeature(60) numeric				% number of key presses in the last 60 sec
+@attribute log(KBCountFeature(60)) numeric			% log of that count
+@attribute KBCountFeature(30) numeric				% number of key presses in the last 30 sec
+@attribute log(KBCountFeature(60)) numeric			% log of that count
+@attribute Focus {'out of focus','in focus'}		% whether message window is in or out of focus
+@attribute UserInputCountFeature(120) numeric		% number of input events in the last 60 sec
+@attribute log(UserInputCountFeature(120)) numeric	% log of that count
+
+%
+% Output feature to be classified to
+%
+@attribute _future_respondedWithin(60) {0,1}		% response time, whether within or after 1 min
+
+%
+% Instances for different scenarios
+%
+@data
+15739,4.197005,0,0,0,0,'out of focus',13,1.146128,0						% classifies correctly
+130,2.117271,2,0.477121,0,0,'out of focus',1821,3.260548,0 				% misclassifies as 1
+42,1.633468,296,2.472756,246,2.392697,'out of focus',1261,3.101059,0 	% misclassifies as 1
+5,0.778151,148,2.173186,146,2.167317,'out of focus',613,2.788168,1		% classifies correctly
+714,2.854306,56,1.755875,0,0,'out of focus',1160,3.064832,1				% classifies correctly
+129,2.113943,0,0,0,0,'out of focus',0,0,1 								% misclassifies as 0
