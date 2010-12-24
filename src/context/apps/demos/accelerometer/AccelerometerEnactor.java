@@ -15,8 +15,8 @@ public class AccelerometerEnactor extends ClassifierEnactor {
 				MotionWidget.MOTION, 
 				
 				new ClassifierWrapper(
-						"demos/mobile-nb/nb.model", // file path to Weka classifier model
-						"demos/mobile-nb/accelerometer-activity-train.arff"), // file path to Weka ARFF file with relevant header
+						"demos/accelerometer-nb/nb.model", // file path to Weka classifier model
+						"demos/accelerometer-nb/accelerometer-activity-train.arff"), // file path to Weka ARFF file with relevant header
 				""); // no ID
 	}
 

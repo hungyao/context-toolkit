@@ -24,7 +24,7 @@ public class AccelerometerGenerator extends Generator {
 		 * Preset dataset
 		 */
 		try {
-			String datasetName = "demos/mobile-nb/accelerometer-activity-test.arff";
+			String datasetName = "demos/accelerometer-nb/accelerometer-activity-test.arff";
 			Reader arffReader = new FileReader(datasetName);
 			dataset = new Instances(arffReader);
 			dataset.setClassIndex(dataset.numAttributes()-1); // last attribute is class

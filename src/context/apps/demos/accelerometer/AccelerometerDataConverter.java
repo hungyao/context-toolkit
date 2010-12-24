@@ -49,9 +49,9 @@ public class AccelerometerDataConverter {
 	
 	public AccelerometerDataConverter() throws FileNotFoundException {
 		// this dataset was extracted from an early version of Laksa (circa Dec 2009)
-		sitTrainingTable = getTrainingTable("demos/mobile-nb/hashtable_sit.ser");
-		standTrainingTable = getTrainingTable("demos/mobile-nb/hashtable_stand.ser");
-		walkTrainingTable = getTrainingTable("demos/mobile-nb/hashtable_walk.ser");
+		sitTrainingTable = getTrainingTable("demos/accelerometer-nb/hashtable_sit.ser");
+		standTrainingTable = getTrainingTable("demos/accelerometer-nb/hashtable_stand.ser");
+		walkTrainingTable = getTrainingTable("demos/accelerometer-nb/hashtable_walk.ser");
 
 		xMeans = new ArrayList<Integer>();
 		yMeans = new ArrayList<Integer>();
@@ -82,7 +82,7 @@ public class AccelerometerDataConverter {
 		featureToListMap.put(ATTR_YZ_CORR, yzCorrs);
 
 //		PrintWriter out = new PrintWriter(System.out);
-		PrintWriter out = new PrintWriter("demos/mobile-nb/accelerometer-activity-train.arff");
+		PrintWriter out = new PrintWriter("demos/accelerometer-nb/accelerometer-activity-train.arff");
 		
 		prepareHeaders(out);
 		prepareTrainingTable(sitTrainingTable, "Sit");

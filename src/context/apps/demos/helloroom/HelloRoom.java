@@ -54,13 +54,13 @@ public class HelloRoom extends ContextModel implements EnactorsReadyListener {
 		/*
 		 * Room sensor Widget
 		 */
-		roomWidget = WidgetXmlParser.getWidget("demos/HelloRoom/room-widget.xml");
+		roomWidget = WidgetXmlParser.getWidget("demos/helloroom/room-widget.xml");
 		addWidget(roomWidget);
 		
 		/*
 		 * Light actuator Widget and Service
 		 */
-		lightWidget = WidgetXmlParser.getWidget("demos/HelloRoom/light-widget.xml");
+		lightWidget = WidgetXmlParser.getWidget("demos/helloroom/light-widget.xml");
 		lightService = new LightService(lightWidget);
 		lightWidget.addService(lightService);
 		addWidget(lightWidget);
@@ -68,7 +68,7 @@ public class HelloRoom extends ContextModel implements EnactorsReadyListener {
 		/*
 		 * Enactor to use rules about RoomWidget to update LightWidget
 		 */
-		enactor = EnactorXmlParser.getEnactor("demos/HelloRoom/room-enactor.xml");
+		enactor = EnactorXmlParser.getEnactor("demos/helloroom/room-enactor.xml");
 		addEnactor(enactor);
 		
 		// Listen for when enactors are ready, then show UI

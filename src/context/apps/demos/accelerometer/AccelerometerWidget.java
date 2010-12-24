@@ -8,7 +8,7 @@ public class AccelerometerWidget extends ClassifierWidget {
 		super(
 				"userId", // id
 				"AccelerometerWidget", // widget classname
-				"demos/mobile-nb/accelerometer-activity-test.arff" // path to .arff file
+				"demos/accelerometer-nb/accelerometer-activity-test.arff" // path to .arff file
 				);
 	}
 	
