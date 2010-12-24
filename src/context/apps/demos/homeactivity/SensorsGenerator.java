@@ -9,7 +9,7 @@ import context.apps.demos.homeactivity.SensorsWidget.SensorsData;
 import context.arch.discoverer.component.ClassnameElement;
 import context.arch.discoverer.query.RuleQueryItem;
 import context.arch.enactor.Generator;
-import context.arch.intelligibility.hmm.SupervisedLearner;
+import context.arch.intelligibility.hmm.HmmSupervisedLearner;
 
 public class SensorsGenerator extends Generator {
 
@@ -26,7 +26,7 @@ public class SensorsGenerator extends Generator {
 		 * Preset dataset
 		 */
 		String obsFilename = "demos/home-hmm/kasteren-jahmm-observations-test.seq";
-		allObservations = SupervisedLearner.readObservationsSequencesFromFile(new File(obsFilename), SensorsWidget.FEATURES.length);
+		allObservations = HmmSupervisedLearner.readObservationsSequencesFromFile(new File(obsFilename), SensorsWidget.FEATURES.length);
 	}
 	
 	public int numObservations() {

@@ -24,7 +24,7 @@ import be.ac.ulg.montefiore.run.jahmm.io.OpdfVectorReader;
 import context.arch.comm.DataObject;
 import context.arch.comm.DataObjects;
 import context.arch.discoverer.ComponentDescription;
-import context.arch.intelligibility.hmm.SupervisedLearner;
+import context.arch.intelligibility.hmm.HmmSupervisedLearner;
 import context.arch.widget.SequenceWidget;
 
 import weka.classifiers.Classifier;
@@ -62,7 +62,7 @@ public abstract class HmmWrapper {
 		loadHeaderInfo(headerFileName);
 
 		// learn model from source dataset
-		SupervisedLearner learner = new SupervisedLearner(OUTPUT_NAMES.size(), INPUT_NAMES.size(), numObservationValues);		
+		HmmSupervisedLearner learner = new HmmSupervisedLearner(OUTPUT_NAMES.size(), INPUT_NAMES.size(), numObservationValues);		
 		this.hmm = learner.learn(
 				new File(observationSequencesFileName), 
 				new File(stateSequencesFileName));
@@ -162,7 +162,7 @@ public abstract class HmmWrapper {
 		}
 
 		System.out.println("classify obs = " + obs);
-		System.out.println("classify x = " + SupervisedLearner.toIntArrayString(x));
+		System.out.println("classify x = " + HmmSupervisedLearner.toIntArrayString(x));
 		
 		return stateSeqs;
 	}

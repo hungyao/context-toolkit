@@ -25,7 +25,7 @@ import be.ac.ulg.montefiore.run.jahmm.io.OpdfVectorWriter;
  * @author Brian Y. Lim
  *
  */
-public class SupervisedLearner {
+public class HmmSupervisedLearner {
 
 	protected List<ObservationVector> trainingObservations;
 	protected List<ObservationInteger> trainingStates;
@@ -65,7 +65,7 @@ public class SupervisedLearner {
 	protected double[][] b; // to model B matrix: emission probabilities from states to observations
 	protected double[][] b_naive; // simplified/modified emission probabilities; see comments at top of class
 
-	public SupervisedLearner(int numStates, int obsDimension, int numObservationValues) {
+	public HmmSupervisedLearner(int numStates, int obsDimension, int numObservationValues) {
 		//		N = 
 		NUM_STATES = numStates;
 		NUM_OBSERVATION_DIM = obsDimension;
@@ -323,7 +323,7 @@ public class SupervisedLearner {
 	 */
 	public static void main(String[] args) {
 		// learning HMM
-		SupervisedLearner learner = new SupervisedLearner(8, 14, 2);		
+		HmmSupervisedLearner learner = new HmmSupervisedLearner(8, 14, 2);		
 		Hmm<ObservationVector> hmm = learner.learn(
 				new File("demos/home-hmm/kasteren-jahmm-observations.seq"), 
 				new File("demos/home-hmm/kasteren-jahmm-states.seq"));
