@@ -49,7 +49,7 @@ public class QueryItemParser {
 	 */
 	public static DNF parse(AbstractQueryItem<?,?> query) {
 		Expression ruleTree = parseRecurse(query);	
-		DNF dnf = Disjunction.toDNF(ruleTree);
+		DNF dnf = DNF.toDNF(ruleTree);
 		return dnf;
 	}
 	
