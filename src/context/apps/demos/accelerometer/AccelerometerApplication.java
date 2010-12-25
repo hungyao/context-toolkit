@@ -47,9 +47,9 @@ public class AccelerometerApplication extends JFrame implements EnactorListener,
 	/*
 	 * Icons for physical activities
 	 */
-	private static final Icon iconSitting = new ImageIcon("resources/icons/motion_sitting.png");
-	private static final Icon iconStanding = new ImageIcon("resources/icons/motion_standing.png");
-	private static final Icon iconWalking = new ImageIcon("resources/icons/motion_walking.png");
+	private static final Icon iconSitting = new ImageIcon("demos/accelerometer-nb/img/motion_sitting.png");
+	private static final Icon iconStanding = new ImageIcon("demos/accelerometer-nb/img/motion_standing.png");
+	private static final Icon iconWalking = new ImageIcon("demos/accelerometer-nb/img/motion_walking.png");
 	static {
 		ContextIcons.icons.put("Sit", iconSitting);
 		ContextIcons.icons.put("Stand", iconStanding);

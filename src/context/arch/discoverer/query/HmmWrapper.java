@@ -77,7 +77,7 @@ public abstract class HmmWrapper {
 		// extract classifier from serialized file
 		try {
 			this.hmm = HmmReader.read(
-					new FileReader("demos/home-hmm/kasteren-jahmm.model"), 
+					new FileReader(hmmModelFileName), 
 					new OpdfVectorReader());
 		} catch (FileFormatException e) {
 			e.printStackTrace();

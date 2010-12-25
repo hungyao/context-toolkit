@@ -43,8 +43,8 @@ import context.arch.storage.Attributes;
  */
 public class AutostatusApplication extends JFrame implements EnactorsReadyListener, EnactorListener, ActionListener, KeyListener {
 
-	public static final Icon alicePic = new ImageIcon("resources/icons/alice.png");
-	public static final Icon bobPic = new ImageIcon("resources/icons/bob.png");
+	public static final Icon alicePic = new ImageIcon("demos/imautostatus-dtree/img/alice.png");
+	public static final Icon bobPic = new ImageIcon("demos/imautostatus-dtree/img/bob.png");
 
 	private static final long serialVersionUID = -6334725541707657993L;
 	private AutostatusModel contextModel;

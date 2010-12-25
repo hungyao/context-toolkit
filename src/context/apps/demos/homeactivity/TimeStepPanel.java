@@ -39,7 +39,7 @@ EnactorsReadyListener, EnactorListener {
 		this.contextModel = viewer.contextModel;
 		this.explainer = (HmmExplainer) contextModel.activityEnactor.getExplainer();
 		
-		backButton = new JButton(new ImageIcon("resources/demos/home-hmm/arrow-left.png"));
+		backButton = new JButton(new ImageIcon("demos/home-hmm/img/arrow-left.png"));
 		backButton.setToolTipText("Move back one step in time");
 		backButton.setPreferredSize(new Dimension(40, 40));
 		backButton.setEnabled(false);
@@ -47,7 +47,7 @@ EnactorsReadyListener, EnactorListener {
 		add(backButton);
 		contextModel.activityEnactor.addListener(this);
 
-		forwardButton = new JButton(new ImageIcon("resources/demos/home-hmm/arrow-right.png"));
+		forwardButton = new JButton(new ImageIcon("demos/home-hmm/img/arrow-right.png"));
 		forwardButton.setToolTipText("Move forward one step in time");
 		forwardButton.setPreferredSize(new Dimension(40, 40));
 		forwardButton.setEnabled(false);

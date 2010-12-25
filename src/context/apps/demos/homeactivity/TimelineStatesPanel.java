@@ -184,14 +184,14 @@ public class TimelineStatesPanel extends JPanel {
 		
 		public final Map<String, Icon> stateIcons = new LinkedHashMap<String, Icon>();
 		{
-			stateIcons.put("LeaveHouse", new ImageIcon("resources/demos/home-hmm/exit.png"));
-			stateIcons.put("UseToilet", new ImageIcon("resources/demos/home-hmm/toilet.png"));
-			stateIcons.put("TakeShower", new ImageIcon("resources/demos/home-hmm/shower.png"));
-			stateIcons.put("GotoBed", new ImageIcon("resources/demos/home-hmm/sleep.png"));
-			stateIcons.put("Breakfast", new ImageIcon("resources/demos/home-hmm/breakfast.png"));
-			stateIcons.put("Dinner", new ImageIcon("resources/demos/home-hmm/dinner.png"));
-			stateIcons.put("GetDrink", new ImageIcon("resources/demos/home-hmm/cup.png"));
-			stateIcons.put("Undefined", new ImageIcon("resources/demos/home-hmm/unknown.png"));
+			stateIcons.put("LeaveHouse", new ImageIcon("demos/home-hmm/img/exit.png"));
+			stateIcons.put("UseToilet", new ImageIcon("demos/home-hmm/img/toilet.png"));
+			stateIcons.put("TakeShower", new ImageIcon("demos/home-hmm/img/shower.png"));
+			stateIcons.put("GotoBed", new ImageIcon("demos/home-hmm/img/sleep.png"));
+			stateIcons.put("Breakfast", new ImageIcon("demos/home-hmm/img/breakfast.png"));
+			stateIcons.put("Dinner", new ImageIcon("demos/home-hmm/img/dinner.png"));
+			stateIcons.put("GetDrink", new ImageIcon("demos/home-hmm/img/cup.png"));
+			stateIcons.put("Undefined", new ImageIcon("demos/home-hmm/img/unknown.png"));
 		};
 		public final Map<Icon, String> iconStates = new LinkedHashMap<Icon, String>();
 		{
@@ -205,7 +205,7 @@ public class TimelineStatesPanel extends JPanel {
 		private JComboBox stateComboBox;
 		
 		@SuppressWarnings("unused")
-		Image arrowImg = new ImageIcon("resources/demos/home-hmm/arrow-prob.png").getImage();
+		Image arrowImg = new ImageIcon("demos/home-hmm/img/arrow-prob.png").getImage();
 		
 		private double evidence = .4;
 		

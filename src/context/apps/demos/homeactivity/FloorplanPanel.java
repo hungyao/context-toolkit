@@ -56,7 +56,7 @@ public class FloorplanPanel extends JPanel implements MouseListener, MouseMotion
 
 	private static final long serialVersionUID = 2481900797033338083L;
 
-	public static final Image floorplanImg = new ImageIcon("resources/icons/floorplan.png").getImage();
+	public static final Image floorplanImg = new ImageIcon("demos/home-hmm/img/floorplan.png").getImage();
 
 	public static int NUM_SENSORS = 14;
 	private SensorBubble[] sensorBubbles = new SensorBubble[] {
