@@ -5,9 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -69,11 +67,11 @@ public class WidgetXmlParser {
 		
 	}
 	
-	public static AbstractQueryItem<?,?> getWidgetSubscriptionQuery(String filename, String id, Map<String, Comparable<?>> constAttValues) {
+	public static AbstractQueryItem<?,?> getWidgetSubscriptionQuery(String filename, String id, Attributes constAtts) {
 		return getWidgetSubscriptionQuery(
 				WidgetXmlParser.getWidgetStub(
 						new WidgetXml(filename, id),
-						constAttValues
+						constAtts
 				));
 	}
 	
@@ -128,18 +126,18 @@ public class WidgetXmlParser {
 		return comp;
 	}
 
-	public static ComponentDescription getWidgetStub(final WidgetXml wxml, Map<String, Comparable<?>> constAttValues) {
-		Widget widget = WidgetXmlParser.getWidget(wxml, constAttValues);
+	public static ComponentDescription getWidgetStub(final WidgetXml wxml, Attributes constAtts) {
+		Widget widget = WidgetXmlParser.getWidget(wxml, constAtts);
 		return WidgetXmlParser.getWidgetStub(widget);
 	}
 	
-	public static ComponentDescription getWidgetStub(URL href, String widgetId, Map<String, Comparable<?>> constAttValues) {
+	public static ComponentDescription getWidgetStub(URL href, String widgetId, Attributes constAtts) {
 		WidgetXml wxml = new WidgetXml(getDocument(href), widgetId);
-		return WidgetXmlParser.getWidgetStub(wxml, constAttValues);
+		return WidgetXmlParser.getWidgetStub(wxml, constAtts);
 	}
 	
-	public static Widget getWidget(String filename, String widgetId, Map<String, Comparable<?>> constAttValues) {
-		return getWidget(new WidgetXml(filename, widgetId), constAttValues);
+	public static Widget getWidget(String filename, String widgetId, Attributes constAtts) {
+		return getWidget(new WidgetXml(filename, widgetId), constAtts);
 	}
 	
 	/**
@@ -153,7 +151,7 @@ public class WidgetXmlParser {
 		return getWidget(new WidgetXml(
 				filename, 
 				String.valueOf(System.currentTimeMillis())), 
-				new HashMap<String, Comparable<?>>()); // empty constantAttVars map
+				new Attributes()); // empty constantAttVars map
 	}
 	
 	/**
@@ -162,7 +160,7 @@ public class WidgetXmlParser {
 	 * @param constAttValues <attName, value>
 	 * @return
 	 */
-	public static Widget getWidget(final WidgetXml wxml, final Map<String, Comparable<?>> constAttValues) {
+	public static Widget getWidget(final WidgetXml wxml, final Attributes constAtts) {
 		Widget widget = new Widget(
 				wxml.getFullId(), 
 				wxml.classname) {
@@ -182,7 +180,7 @@ public class WidgetXmlParser {
 					String typeStr = attrElem.getAttributeValue("type");
 					boolean constant = Boolean.parseBoolean(attrElem.getAttributeValue("constant"));
 					
-					Attribute<?> att = createAttribute(attName, typeStr, constAttValues, constant);
+					Attribute<?> att = createAttribute(attName, typeStr, constAtts.getAttributeValue(attName), constant);
 					addAttribute(att, constant);
 				}
 			}
@@ -199,21 +197,17 @@ public class WidgetXmlParser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends Comparable<? super T>> Attribute<T> createAttribute(String attName, String typeStr, Map<String, Comparable<?>> constAttValues, boolean constant) {
-		Attribute<T> att;
-		
-		Class<T> attType = (Class<T>) toClass(typeStr);
+	public static <T extends Comparable<? super T>> Attribute<T> createAttribute(String attName, String typeStr, T attValue, boolean constant) {
+		Attribute<T> att;		
 		
 		if (constant) {
-			Comparable<T> value = (Comparable<T>) constAttValues.get(attName);
-			
 			att = AttributeNameValue.instance(
-					attName, 
-					attType,
-					value
+					attName,
+					attValue
 					);
 		}
 		else {
+			Class<T> attType = (Class<T>) toClass(typeStr);
 			att = Attribute.instance(attName, attType);
 		}
 		
@@ -253,23 +247,6 @@ public class WidgetXmlParser {
 				return null;
 			}		
 		}
-	}
-	
-	/**
-	 * Convenience method to extract constant attribute values from a Widget.
-	 * These would then be used to fill in values for XML generation of widgets or enactors.
-	 * @param widget
-	 * @return
-	 */
-	public static Map<String, Comparable<?>> extractConstantAttValues(Widget widget) {
-		Map<String, Comparable<?>> constAttValues = new HashMap<String, Comparable<?>>();
-		
-		Attributes atts = widget.getConstantAttributes();
-		for (String attName : widget.getConstantAttributes().keySet()) {
-			constAttValues.put(attName, atts.getAttributeValue(attName));
-		}
-		
-		return constAttValues;
 	}
 	
 	/* ================================================================================== */

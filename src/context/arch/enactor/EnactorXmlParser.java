@@ -78,8 +78,8 @@ public class EnactorXmlParser {
 	public static Enactor getEnactor(String filename) {
 		return getEnactor(filename,
 				String.valueOf(System.currentTimeMillis()),
-				new HashMap<String, Comparable<?>>(), // empty
-				new HashMap<String, Comparable<?>>()
+				new Attributes(), // empty
+				new Attributes()
 				);
 	}
 
@@ -95,12 +95,8 @@ public class EnactorXmlParser {
 			Widget inWidget, Widget outWidget) {
 		String enactorId = inWidget.getId() + "_" + outWidget.getId();
 
-		// extract map of constant values from inWidget
-		Map<String, Comparable<?>> inConstAttValues = WidgetXmlParser.extractConstantAttValues(inWidget);		
-		// extract map of constant values from outWidget
-		Map<String, Comparable<?>> outConstAttValues = WidgetXmlParser.extractConstantAttValues(outWidget);
-
-		return getEnactor(new EnactorXml(filename, enactorId), inConstAttValues, outConstAttValues);
+		return getEnactor(new EnactorXml(filename, enactorId), 
+				inWidget.getConstantAttributes(), outWidget.getConstantAttributes());
 	}
 
 	/**
@@ -112,12 +108,12 @@ public class EnactorXmlParser {
 	 * @return Enactor specified in XML file.
 	 */
 	public static Enactor getEnactor(String filename, String enactorId,
-			Map<String, Comparable<?>> inConstAttValues, Map<String, Comparable<?>> outConstAttValues) {
-		return getEnactor(new EnactorXml(filename, enactorId), inConstAttValues, outConstAttValues);
+			Attributes inConstAtts, Attributes outConstAtts) {
+		return getEnactor(new EnactorXml(filename, enactorId), inConstAtts, outConstAtts);
 	}
 
 	private static Enactor getEnactor(final EnactorXml exml, 
-			Map<String, Comparable<?>> inConstAttValues, Map<String, Comparable<?>> outConstAttValues) {
+			Attributes inConstAtts, Attributes outConstAtts) {
 
 		final Namespace ns = exml.rootNode.getNamespace();
 
@@ -128,9 +124,9 @@ public class EnactorXmlParser {
 			 * get stubs in and out widgets
 			 */
 			String inHref = exml.rootNode.getChild("InWidget", ns).getAttributeValue("href");
-			final ComponentDescription inWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, inHref), "", inConstAttValues); // doesn't set id
+			final ComponentDescription inWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, inHref), "", inConstAtts); // doesn't set id
 			String outHref = exml.rootNode.getChild("OutWidget", ns).getAttributeValue("href");
-			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAttValues);
+			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
 
 			/*
 			 * extract subscription queries for widgets
@@ -263,7 +259,7 @@ public class EnactorXmlParser {
 				new EnactorXml(
 						filename, 
 						String.valueOf(System.currentTimeMillis())),
-				new HashMap<String, Comparable<?>>() // empty
+				new Attributes() // empty
 				);
 	}
 
@@ -271,12 +267,10 @@ public class EnactorXmlParser {
 		String enactorId = "_" + outWidget.getId();
 		EnactorXml exml = new EnactorXml(filename, enactorId);
 
-		Map<String, Comparable<?>> outConstAttValues = WidgetXmlParser.extractConstantAttValues(outWidget);
-
-		return getGenerator(exml, outConstAttValues);
+		return getGenerator(exml, outWidget.getConstantAttributes());
 	}
 
-	private static Generator getGenerator(final EnactorXml exml, Map<String, Comparable<?>> outConstAttValues) {
+	private static Generator getGenerator(final EnactorXml exml, Attributes outConstAtts) {
 
 		final Namespace ns = exml.rootNode.getNamespace();
 
@@ -287,7 +281,7 @@ public class EnactorXmlParser {
 			 * get stubs for out widget
 			 */
 			String outHref = exml.rootNode.getChild("OutWidget", ns).getAttributeValue("href");
-			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAttValues);
+			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
 
 			/*
 			 * extract subscription query for widget

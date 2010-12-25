@@ -1,12 +1,10 @@
 package context.apps.demos.roomlight;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import context.apps.ContextModel;
 import context.arch.discoverer.query.AbstractQueryItem;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.EnactorXmlParser;
+import context.arch.storage.Attributes;
 import context.arch.widget.Widget;
 import context.arch.widget.WidgetXmlParser;
 
@@ -34,12 +32,11 @@ public class RoomModel extends ContextModel {
 	public RoomModel(RoomApplication application) {
 		super();
 		
-		// 
-		Map<String, Comparable<?>> roomConstAttValues = new HashMap<String, Comparable<?>>() {{
-			put("room", room);
+		Attributes roomConstAttValues = new Attributes() {{
+			addAttribute("room", room);
 		}};
-		Map<String, Comparable<?>> lampConstAttValues = new HashMap<String, Comparable<?>>() {{
-			put("lamp", lamp);
+		Attributes lampConstAttValues = new Attributes() {{
+			addAttribute("lamp", lamp);
 		}};
 		
 		/*

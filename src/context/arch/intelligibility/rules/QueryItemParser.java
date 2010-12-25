@@ -1,7 +1,5 @@
 package context.arch.intelligibility.rules;
 
-import java.util.HashMap;
-
 import context.arch.discoverer.component.AbstractElement;
 import context.arch.discoverer.component.AttributeElement;
 import context.arch.discoverer.component.CallbackElement;
@@ -31,6 +29,7 @@ import context.arch.intelligibility.expression.Expression;
 import context.arch.intelligibility.expression.Negation;
 import context.arch.intelligibility.expression.Parameter;
 import context.arch.storage.AttributeNameValue;
+import context.arch.storage.Attributes;
 import context.arch.widget.WidgetXmlParser;
 
 /**
@@ -196,9 +195,7 @@ public class QueryItemParser {
 		AbstractQueryItem<?,?> query = WidgetXmlParser.getWidgetSubscriptionQuery(
 				"demos/room-rules/room-widget.xml", 
 				"Living Room", // widgetId
-				new HashMap<String, Comparable<?>>() {{
-					put("room", "Living Room");
-				}});
+				new Attributes()); // no constant attribute values to set
 		query = RuleQueryItem.instance(
 				new NonConstantAttributeElement(AttributeNameValue.instance("greater_test", 10)),
 				AttributeComparison.GREATER
@@ -206,11 +203,11 @@ public class QueryItemParser {
 		Enactor enactor = EnactorXmlParser.getEnactor(
 				"demos/room-rules/room-enactor.xml", 
 				"Living Room Ceiling", 
-				new HashMap<String, Comparable<?>>() {{
-					put("room", "Living Room");
+				new Attributes() {{
+					addAttribute("room", "Living Room");
 				}}, 
-				new HashMap<String, Comparable<?>>() {{
-					put("lamp", "Ceiling");
+				new Attributes() {{
+					addAttribute("lamp", "Ceiling");
 				}});
 //		query = enactor.getReference("Off").getConditionQuery();
 //		Disjunction dnf = QueryItemParser.parse(query);
