@@ -10,7 +10,13 @@ import context.arch.comm.DataObject;
 import context.arch.comm.DataObjects;
 
 /**
- *
+ * Abstract class to represent a comparison to the discovery subscription and query system in the context toolkit.
+ * Comparisons could be simple like an equality test or a distance calculation.
+ * Comparisons may even be on objects of different classes, specified by the C1 and C2 type parameters.
+ * 
+ * @param <C1> class of the first comparison entity
+ * @param <C2> class of the second comparison entity
+ * 
  * @author Agathe
  * @author Brian Y. Lim
  */

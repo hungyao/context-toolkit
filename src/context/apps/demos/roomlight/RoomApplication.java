@@ -89,7 +89,7 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		outsideList = new DNDList();
 		outsideList.setEnabled(false);
 		DefaultListModel outsideModel = new DefaultListModel();
-		// http://babynamesworld.parentsconnect.com/top-100-baby-names.php?p=top&s_top_year3=2009&s_top_nr3=100&s_gender4=1
+		// source for names: http://babynamesworld.parentsconnect.com/top-100-baby-names.php?p=top&s_top_year3=2009&s_top_nr3=100&s_gender4=1
 	    outsideModel.addElement("Isabella");
 	    outsideModel.addElement("Emma");
 	    outsideModel.addElement("Jacob");
@@ -131,8 +131,8 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		/*
 		 * Icons
 		 */
-		ContextIcons.set("On", new ImageIcon("resources/icons/lightbulb.png"));
-		ContextIcons.set("Off", new ImageIcon("resources/icons/lightbulb_off.png"));
+		ContextIcons.set("On", new ImageIcon("demos/room-rules/img/lightbulb.png"));
+		ContextIcons.set("Off", new ImageIcon("demos/room-rules/img/lightbulb_off.png"));
 	}
 	
 	private void updateBrightness() {

@@ -13,6 +13,10 @@ import context.arch.comm.DataObject;
 import context.arch.comm.DataObjects;
 
 /**
+ * Abstract class to describe an element of a component ({@link ComponentDescription}), 
+ * particularly important for the discovery subscription and query mechanism of the Context Toolkit.
+ * Subclasses would typically describe elements like host name, port number, non-constant attributes, etc.
+ * However, elements can also be multi-variate and complex combinations of the information in components, e.g. Euclidean distance of x and y attributes in a Widget.
  * 
  * @param <E> class of return of extractElement(ComponentDescription); i.e. the format of the element that we want to compare
  * @param <C1> class of the first comparison argument to AbstractComparison

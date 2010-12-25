@@ -15,7 +15,7 @@ import context.arch.widget.Widget;
 /**
  * Use this class as the focal point of a context-aware application.
  * Extend it to add Widgets and Enactors to the model so that contexts
- * and logic are modeled. Then call #start() to launch the Widgets and
+ * and logic are modeled. Then call {@link #start()} to launch the Widgets and
  * Enactors so that they automatically loads the components in their own threads.
  * 
  * @author Brian Y. Lim

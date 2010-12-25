@@ -17,15 +17,15 @@ public class RoomPanel extends JPanel {
 
 	private static final long serialVersionUID = -5527476385338784665L;
 
-	public static final Image roomImg = new ImageIcon("resources/icons/room.png").getImage();
+	public static final Image roomImg = new ImageIcon("demos/room-rules/img/room.png").getImage();
 	
-	public static final Image grassImg = new ImageIcon("resources/icons/grass.png").getImage();
-	public static final Image grassNightImg = new ImageIcon("resources/icons/grass-night.png").getImage();
+	public static final Image grassImg = new ImageIcon("demos/room-rules/img/grass.png").getImage();
+	public static final Image grassNightImg = new ImageIcon("demos/room-rules/img/grass-night.png").getImage();
 	
-	public static final Image lampOnImg = new ImageIcon("resources/icons/lamp-on.png").getImage();
-	public static final Image lampOffImg = new ImageIcon("resources/icons/lamp-off.png").getImage();
+	public static final Image lampOnImg = new ImageIcon("demos/room-rules/img/lamp-on.png").getImage();
+	public static final Image lampOffImg = new ImageIcon("demos/room-rules/img/lamp-off.png").getImage();
 
-	public static final Image sunImg = new ImageIcon("resources/icons/sun.png").getImage();
+	public static final Image sunImg = new ImageIcon("demos/room-rules/img/sun.png").getImage();
 
 	public final Map<String, Image> nameImgMap = new HashMap<String, Image>();
 	{
@@ -34,10 +34,10 @@ public class RoomPanel extends JPanel {
 		Image jacobImg;
 		Image ethanImg;
 		
-		nameImgMap.put("Isabella", isabellaImg = new ImageIcon("resources/icons/Isabella.png").getImage());
-		nameImgMap.put("Emma", emmaImg = new ImageIcon("resources/icons/Emma.png").getImage());
-		nameImgMap.put("Jacob", jacobImg = new ImageIcon("resources/icons/Jacob.png").getImage());
-		nameImgMap.put("Ethan", ethanImg = new ImageIcon("resources/icons/Ethan.png").getImage());
+		nameImgMap.put("Isabella", isabellaImg = new ImageIcon("demos/room-rules/img/Isabella.png").getImage());
+		nameImgMap.put("Emma", emmaImg = new ImageIcon("demos/room-rules/img/Emma.png").getImage());
+		nameImgMap.put("Jacob", jacobImg = new ImageIcon("demos/room-rules/img/Jacob.png").getImage());
+		nameImgMap.put("Ethan", ethanImg = new ImageIcon("demos/room-rules/img/Ethan.png").getImage());
 		
 		float scale = .75f;
 		
