@@ -8,7 +8,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -22,39 +21,54 @@ import context.arch.discoverer.Discoverer;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.Generator;
 import context.arch.intelligibility.Explainer;
-import context.arch.intelligibility.Explanation;
 import context.arch.intelligibility.presenters.ContextIcons;
-import context.arch.intelligibility.presenters.QueryPanel;
 import context.arch.intelligibility.presenters.StringPresenter;
-import context.arch.intelligibility.query.Query;
-import context.arch.intelligibility.query.QueryListener;
 
 /**
  * Main application with GUI to display the smart room application.
- * This also demonstrates some intelligibility features.
  * @author Brian Y. Lim
  *
  */
-public class RoomApplication extends JFrame implements ChangeListener, ListDataListener, QueryListener {
+public class RoomApplication extends JFrame implements ChangeListener, ListDataListener {
 
 	private static final long serialVersionUID = -8804998219675878102L;
-	private RoomPanel roomPanel;
-	private JSlider brightnessSlider;
-	private RoomModel contextModel;
-	private Generator generator;
-	private Enactor enactor;
-	private Explainer explainer;
-	private StringPresenter presenter;
-	private DNDList outsideList;
-	private DNDList insideList;
-	private DefaultListModel insideModel;
-	private QueryPanel queryPanel;
-	private JLabel explanationLabel;
-	private JPanel intelligibilityPanel;
+	
+	protected RoomPanel roomPanel;
+	protected JSlider brightnessSlider;
+	protected RoomModel contextModel;
+	protected Generator generator;
+	protected Enactor enactor;
+	protected Explainer explainer;
+	protected StringPresenter presenter;
+	protected DNDList outsideList;
+	protected DNDList insideList;
+	protected DefaultListModel insideModel;
 	
 	public RoomApplication() {
 		super("Intelligibility - Room");
+		initLayout();
 		
+		/*
+		 * Context modeling
+		 */
+		contextModel = new RoomModel(this);	
+		generator = contextModel.roomGenerator;
+		enactor = contextModel.roomEnactor;
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+			updateBrightness();
+			updatePresence();
+
+			pack();
+			setLocationRelativeTo(null);
+		}
+		super.setVisible(visible);
+	}
+	
+	protected void initLayout() {		
 		roomPanel = new RoomPanel();
 		add(roomPanel, BorderLayout.CENTER);
 		
@@ -101,20 +115,10 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		sidePanel.add(scrollpane);
 
 		roomPanel.setListModels(insideModel, outsideModel);
-		
-		/*
-		 * Bottom panel for explanations
-		 */
-		intelligibilityPanel = new JPanel();		
-		intelligibilityPanel.setPreferredSize(new Dimension(10, 80));
-		add(intelligibilityPanel, BorderLayout.SOUTH);
-//		intelligibilityPanel.setLayout(new BoxLayout(intelligibilityPanel, BoxLayout.X_AXIS));
 
 		/*
 		 * Window properties
 		 */		
-		pack();
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		/*
@@ -122,33 +126,6 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		 */
 		ContextIcons.set("On", new ImageIcon("demos/room-rules/img/lightbulb.png"));
 		ContextIcons.set("Off", new ImageIcon("demos/room-rules/img/lightbulb_off.png"));
-		
-		/*
-		 * Context modeling
-		 */
-		contextModel = new RoomModel(this);	
-		generator = contextModel.roomGenerator;
-		enactor = contextModel.roomEnactor;
-
-		/*
-		 * Context intelligibility
-		 */
-		explainer = enactor.getExplainer();
-//		presenter = new TypePanelPresenter(enactor);
-		presenter = new StringPresenter(enactor);
-
-		queryPanel = new QueryPanel(enactor);
-		intelligibilityPanel.add(queryPanel);
-		explanationLabel = new JLabel();
-		intelligibilityPanel.add(explanationLabel);
-
-		queryPanel.addQueryListener(this);
-
-		/*
-		 * Update state
-		 */
-		updateBrightness();
-		updatePresence();
 	}
 	
 	private void updateBrightness() {
@@ -184,29 +161,13 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 	 * @param light
 	 */
 	public void setLight(int light) {
-		roomPanel.setLight(light);
-						
+		roomPanel.setLight(light);						
 		roomPanel.repaint();
-		queryPanel.update();
-	}
-
-	/**
-	 * Called when the user selects a query.
-	 * It generates the corresponding explanation, and has it rendered.
-	 */
-	@Override
-	public void queryInvoked(Query query) {
-		Explanation explanation = explainer.getExplanation(query);
-		System.out.println("explanation: " + explanation);
-		
-		String text = presenter.render(explanation);
-		explanationLabel.setText("<html>" + text + "</html>");
 	}
 	
 	public static void main(String[] args) {
 		Discoverer.start();		
-		RoomApplication f = new RoomApplication();
-		f.setVisible(true);
+		new RoomApplication().setVisible(true);
 	}
 
 }
