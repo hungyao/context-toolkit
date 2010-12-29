@@ -66,7 +66,7 @@ public class ConsoleStringPresenter extends StringPresenter {
 			explanation = dreducer.apply(explanation);
 		}
 				
-		return super.render(explanation);
+		return '\n' + super.render(explanation);
 	}
 	
 	protected DecimalFormat nf = (DecimalFormat)DecimalFormat.getInstance();

@@ -22,6 +22,8 @@ public class ResponsivenessWidget extends Widget {
 	public ResponsivenessWidget(String userId) {
 		super(CLASSNAME + '_' + userId, CLASSNAME);
 		this.userId = userId;
+		
+		super.start(true);
 	}
 
 	@Override

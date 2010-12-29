@@ -24,6 +24,8 @@ public class AutostatusWidget extends ClassifierWidget {
 				"demos/imautostatus-dtree/imautostatus-test.arff" // path to .arff file
 				);
 		this.userId = userId;
+		
+		super.start(true);
 	}
 
 	@Override

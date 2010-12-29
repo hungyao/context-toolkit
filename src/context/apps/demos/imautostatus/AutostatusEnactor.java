@@ -38,6 +38,8 @@ public class AutostatusEnactor extends ClassifierEnactor {
 						),  
 						
 				userId); // enactor id
+		
+		start();
 	}
 
 }

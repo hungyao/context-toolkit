@@ -45,6 +45,8 @@ public class AutostatusGenerator extends Generator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		start();
 	}
 	
 	/**

@@ -3,6 +3,11 @@ package context.apps.demos.imautostatus;
 import context.arch.intelligibility.query.AltQuery;
 import context.arch.intelligibility.query.Query;
 
+/**
+ * Convenience class to parse a Query from the Chat window command prompt.
+ * @author Brian Y. Lim
+ *
+ */
 public class QueryParser {
 	
 	public static Query getQuery(String question, String arguments) {
