@@ -26,9 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import weka.core.Instance;
-import weka.core.Instances;
-
-import context.arch.discoverer.query.ClassifierWrapper;
 import context.arch.enactor.Generator;
 import context.arch.storage.Attributes;
 import context.arch.widget.ClassifierWidget;
@@ -135,10 +132,9 @@ public class ChatWindow extends JFrame implements KeyListener {
 		panel.add(scenarioComboBox);
 		
 		scenarioComboBox.addActionListener(new ActionListener() {
-			Instances scenarios = ClassifierWrapper.loadDataset("demos/imautostatus-dtree/imautostatus-test.arff");				
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				Instance instance = scenarios.get(scenarioComboBox.getSelectedIndex());
+				Instance instance = AutostatusApplication.scenarios.get(scenarioComboBox.getSelectedIndex());
 				Attributes atts = ClassifierWidget.instanceToAttributes(instance);
 				generator.updateOutWidget(atts);
 			}

@@ -1,11 +1,6 @@
 package context.apps.demos.imautostatus;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-
 import weka.core.Instance;
-import weka.core.Instances;
 import context.arch.discoverer.component.ClassnameElement;
 import context.arch.discoverer.component.ConstantAttributeElement;
 import context.arch.discoverer.query.ANDQueryItem;
@@ -21,8 +16,6 @@ import context.arch.widget.ClassifierWidget;
  *
  */
 public class AutostatusGenerator extends Generator {
-	
-	private Instances dataset;
 
 	public AutostatusGenerator(String userId) {
 		super(
@@ -34,18 +27,6 @@ public class AutostatusGenerator extends Generator {
 				"Autostatus", // outcome name
 				userId); // enactor id
 		
-		/*
-		 * Preset dataset for loading each Instance
-		 */
-		try {
-			String datasetName = "demos/imautostatus-dtree/imautostatus-test.arff";
-			Reader arffReader = new FileReader(datasetName);
-			dataset = new Instances(arffReader);
-			dataset.setClassIndex(dataset.numAttributes()-1); // last attribute is class
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		start();
 	}
 	
@@ -54,10 +35,7 @@ public class AutostatusGenerator extends Generator {
 	 * @param instanceIndex index of the scenario index to load
 	 * @return
 	 */
-	public void loadInstance(int instanceIndex) {
-		// load instance from dataset
-		Instance instance = dataset.instance(instanceIndex);
-
+	public void setInstance(Instance instance) {
 		// Set data values from .arff instance
 		Attributes data = ClassifierWidget.instanceToAttributes(instance);
 

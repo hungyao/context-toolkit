@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import weka.core.Instances;
+
 import context.arch.comm.DataObject;
 import context.arch.discoverer.Discoverer;
+import context.arch.discoverer.query.ClassifierWrapper;
 import context.arch.enactor.EnactorComponentInfo;
 import context.arch.enactor.EnactorListener;
 import context.arch.enactor.EnactorParameter;
@@ -30,6 +33,8 @@ public class AutostatusApplication {
 
 	protected AutostatusGenerator generator;
 	protected AutostatusEnactor enactor;
+	
+	protected static final Instances scenarios = ClassifierWrapper.loadDataset("demos/imautostatus-dtree/imautostatus-test.arff");
 
 	/**
 	 * 
@@ -49,6 +54,9 @@ public class AutostatusApplication {
 		 */
 		generator = new AutostatusGenerator(userId);
 		enactor = new AutostatusEnactor(userId);
+		
+		ConsoleReader reader = new ConsoleReader();
+		enactor.addListener(reader);
 	}
 	
 	/**
@@ -57,13 +65,9 @@ public class AutostatusApplication {
 	 * @author Brian Y. Lim
 	 *
 	 */
-	public static class ConsoleReader implements EnactorListener {
+	public class ConsoleReader implements EnactorListener {
 		
-		AutostatusApplication model;
-		
-		ConsoleReader(final AutostatusApplication model) {
-			this.model = model;
-			
+		ConsoleReader() {
 			/*
 			 * Thread to continually read command prompt
 			 */
@@ -87,8 +91,8 @@ public class AutostatusApplication {
 								printUserInstructions();
 							}
 							else {							
-								int instanceIndex = Integer.parseInt(line);
-								model.generator.loadInstance(instanceIndex);
+								int instanceIndex = Integer.parseInt(line);								
+								generator.setInstance(scenarios.get(instanceIndex));
 							}
 						}
 					} catch (IOException e) { e.printStackTrace(); }
@@ -102,7 +106,7 @@ public class AutostatusApplication {
 		@Override
 		public void componentEvaluated(EnactorComponentInfo eci) {
 			// get responsiveness prediction from enactor
-			String outcome = model.enactor.getOutcomeValue();
+			String outcome = enactor.getOutcomeValue();
 			String responsiveness = "Within 1 minute";
 			if (outcome.equals("1")) { responsiveness = "After 1 minute"; }
 			
@@ -137,11 +141,8 @@ public class AutostatusApplication {
 	 * @param args
 	 */
 	public static void main(String[] args) {		
-		Discoverer.start(); // need to start discoverer
-				
-		AutostatusApplication model = new AutostatusApplication("Bob");
-		ConsoleReader reader = new ConsoleReader(model);		
-		model.enactor.addListener(reader);
+		Discoverer.start(); // need to start discoverer				
+		AutostatusApplication app = new AutostatusApplication("Bob");
 	}
 
 }
