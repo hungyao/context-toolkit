@@ -4,7 +4,7 @@ import context.arch.storage.Attribute;
 import context.arch.storage.AttributeNameValue;
 import context.arch.widget.Widget;
 
-public class LightWidget extends Widget {
+public final class LightWidget extends Widget {
 	
 	public static final String CLASSNAME = LightWidget.class.getName();
 

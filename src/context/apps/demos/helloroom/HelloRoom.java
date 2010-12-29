@@ -15,8 +15,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import context.apps.ContextModel;
-import context.apps.ContextModel.EnactorsReadyListener;
+import context.arch.discoverer.Discoverer;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.EnactorXmlParser;
 import context.arch.widget.Widget;
@@ -37,7 +36,7 @@ import context.arch.widget.WidgetXmlParser;
  * @author Brian Y. Lim
  *
  */
-public class HelloRoom extends ContextModel implements EnactorsReadyListener {
+public class HelloRoom {
 	
 	protected Widget roomWidget;
 	protected Widget lightWidget;
@@ -54,41 +53,22 @@ public class HelloRoom extends ContextModel implements EnactorsReadyListener {
 		/*
 		 * Room sensor Widget
 		 */
-		roomWidget = WidgetXmlParser.getWidget("demos/helloroom/room-widget.xml");
-		addWidget(roomWidget);
+		roomWidget = WidgetXmlParser.createWidget("demos/helloroom/room-widget.xml");
 		
 		/*
 		 * Light actuator Widget and Service
 		 */
-		lightWidget = WidgetXmlParser.getWidget("demos/helloroom/light-widget.xml");
+		lightWidget = WidgetXmlParser.createWidget("demos/helloroom/light-widget.xml");
 		lightService = new LightService(lightWidget);
 		lightWidget.addService(lightService);
-		addWidget(lightWidget);
 		
 		/*
 		 * Enactor to use rules about RoomWidget to update LightWidget
 		 */
-		enactor = EnactorXmlParser.getEnactor("demos/helloroom/room-enactor.xml");
-		addEnactor(enactor);
-		
-		// Listen for when enactors are ready, then show UI
-		super.setEnactorsReadyListener(this);
+		enactor = EnactorXmlParser.createEnactor("demos/helloroom/room-enactor.xml");
 
 		// setup UI component
 		ui = new HelloRoomUI(lightService.lightLabel); // need to attach lightService before starting
-		ui.setVisible(false);
-	}
-	
-	@Override
-	public void enactorsReady() {
-		ui.setVisible(true);
-		
-		JFrame frame = new JFrame("Hello Room");
-		frame.add(ui);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(new Dimension(300, 200));
-		frame.setLocationRelativeTo(null); // center of screen
-		frame.setVisible(true);
 	}
 	
 
@@ -158,29 +138,32 @@ public class HelloRoom extends ContextModel implements EnactorsReadyListener {
 			// UI for light level
 			add(new JLabel("light") {{ setFont(getFont().deriveFont(fontSize)); }});
 			add(lightLabel);
-		}
-		
-		@Override
-		public void setVisible(boolean visible) {
-			// force update if visible
-			if (visible) {
-				short brightness = (short)brightnessSlider.getValue();
-				roomWidget.updateData("brightness", brightness);
-	
-				int presence = (Integer) presenceSpinner.getValue();
-				roomWidget.updateData("presence", presence);
-			}
 			
-			super.setVisible(visible);
+			/*
+			 * Init state of widgets
+			 */
+			short brightness = (short)brightnessSlider.getValue();
+			int presence = (Integer) presenceSpinner.getValue();
+			roomWidget.updateData("brightness", brightness);
+			roomWidget.updateData("presence", presence);
 		}
 		
 	}
 	
 	public static void main(String[] args) {
-		ContextModel.startDiscoverer();
+		Discoverer.start();
 		
 		HelloRoom app = new HelloRoom();
-		app.start();		
+		
+		/*
+		 * GUI frame
+		 */
+		JFrame frame = new JFrame("Hello Room");
+		frame.add(app.ui);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(new Dimension(300, 200));
+		frame.setLocationRelativeTo(null); // center of screen
+		frame.setVisible(true);
 	}
 
 }

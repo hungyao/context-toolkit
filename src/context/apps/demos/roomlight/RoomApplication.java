@@ -18,8 +18,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import context.apps.ContextModel;
-import context.apps.ContextModel.EnactorsReadyListener;
+import context.arch.discoverer.Discoverer;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.Generator;
 import context.arch.intelligibility.Explainer;
@@ -36,7 +35,7 @@ import context.arch.intelligibility.query.QueryListener;
  * @author Brian Y. Lim
  *
  */
-public class RoomApplication extends JFrame implements ChangeListener, ListDataListener, EnactorsReadyListener, QueryListener {
+public class RoomApplication extends JFrame implements ChangeListener, ListDataListener, QueryListener {
 
 	private static final long serialVersionUID = -8804998219675878102L;
 	private RoomPanel roomPanel;
@@ -60,20 +59,12 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		add(roomPanel, BorderLayout.CENTER);
 		
 		/*
-		 * Context modeling
-		 */
-		contextModel = new RoomModel(this);	
-		contextModel.setEnactorsReadyListener(this);
-		generator = contextModel.roomGenerator;
-		
-		/*
 		 * Side panel
 		 */
 		JPanel sidePanel = new JPanel();
 		sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
 		
 		brightnessSlider = new JSlider(SwingConstants.VERTICAL, 0, RoomModel.BRIGHTNESS_MAX, 0);
-		brightnessSlider.setEnabled(false);
 		brightnessSlider.setPreferredSize(new Dimension(50, 100));
 		brightnessSlider.setMajorTickSpacing(RoomModel.BRIGHTNESS_MAX);
 		brightnessSlider.setPaintLabels(true);
@@ -87,7 +78,6 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		add(sidePanel, BorderLayout.EAST);		
 
 		outsideList = new DNDList();
-		outsideList.setEnabled(false);
 		DefaultListModel outsideModel = new DefaultListModel();
 		// source for names: http://babynamesworld.parentsconnect.com/top-100-baby-names.php?p=top&s_top_year3=2009&s_top_nr3=100&s_gender4=1
 	    outsideModel.addElement("Isabella");
@@ -101,7 +91,6 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		sidePanel.add(scrollpane);
 		
 		insideList = new DNDList();
-		insideList.setEnabled(false);
 		insideModel = new DefaultListModel();
 		insideModel.addElement("Ethan");
 		insideList.setModel(insideModel);
@@ -133,6 +122,33 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		 */
 		ContextIcons.set("On", new ImageIcon("demos/room-rules/img/lightbulb.png"));
 		ContextIcons.set("Off", new ImageIcon("demos/room-rules/img/lightbulb_off.png"));
+		
+		/*
+		 * Context modeling
+		 */
+		contextModel = new RoomModel(this);	
+		generator = contextModel.roomGenerator;
+		enactor = contextModel.roomEnactor;
+
+		/*
+		 * Context intelligibility
+		 */
+		explainer = enactor.getExplainer();
+//		presenter = new TypePanelPresenter(enactor);
+		presenter = new StringPresenter(enactor);
+
+		queryPanel = new QueryPanel(enactor);
+		intelligibilityPanel.add(queryPanel);
+		explanationLabel = new JLabel();
+		intelligibilityPanel.add(explanationLabel);
+
+		queryPanel.addQueryListener(this);
+
+		/*
+		 * Update state
+		 */
+		updateBrightness();
+		updatePresence();
 	}
 	
 	private void updateBrightness() {
@@ -159,32 +175,6 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 	}
 	@Override 
 	public void intervalRemoved(ListDataEvent evt) {
-		updatePresence();
-	}
-
-	@Override
-	public void enactorsReady() {
-		brightnessSlider.setEnabled(true);
-		outsideList.setEnabled(true);
-		insideList.setEnabled(true);
-
-		enactor = contextModel.roomEnactor;
-
-		/*
-		 * Context intelligibility
-		 */
-		explainer = enactor.getExplainer();
-//		presenter = new TypePanelPresenter(enactor);
-		presenter = new StringPresenter(enactor);
-
-		queryPanel = new QueryPanel(enactor);
-		intelligibilityPanel.add(queryPanel);
-		explanationLabel = new JLabel();
-		intelligibilityPanel.add(explanationLabel);
-
-		queryPanel.addQueryListener(this);
-
-		updateBrightness();
 		updatePresence();
 	}
 	
@@ -214,7 +204,7 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 	}
 	
 	public static void main(String[] args) {
-		ContextModel.startDiscoverer();		
+		Discoverer.start();		
 		RoomApplication f = new RoomApplication();
 		f.setVisible(true);
 	}

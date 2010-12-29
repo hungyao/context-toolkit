@@ -1,8 +1,6 @@
 package context.apps.demos.accelerometer;
 
-import context.apps.ContextModel;
-
-public class AccelerometerModel extends ContextModel {
+public class AccelerometerModel {
 	
 	AccelerometerWidget accelWidget;
 	MotionWidget motionWidget;
@@ -18,18 +16,12 @@ public class AccelerometerModel extends ContextModel {
 		 */
 		accelWidget = new AccelerometerWidget();
 		motionWidget = new MotionWidget();
-		addWidget(accelWidget);
-		addWidget(motionWidget);
 		
 		/*
 		 * Enactors
 		 */
 		accelGenerator = new AccelerometerGenerator();
 		accelEnactor = new AccelerometerEnactor();
-		addEnactor(accelGenerator);
-		addEnactor(accelEnactor);
-		
-		start();
 	}
 	
 	protected void update(int instanceIndex) {

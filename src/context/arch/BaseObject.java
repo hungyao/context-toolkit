@@ -1642,11 +1642,17 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 	 * @return String The uniq identification
 	 * @author Agathe
 	 */
-	public static String getId(String className, int port){
-		return BaseObject.getId(className, String.valueOf(port));
+	public static String createId(String className, int port){
+		return BaseObject.createId(className, String.valueOf(port));
 	}
 
-	public static String getId(String className, String suffix) {
+	/**
+	 * Convenience method to create an ID for the base object.
+	 * @param className
+	 * @param suffix
+	 * @return className + {@link Constants.SPACER} + hostname + Constants.SPACER + suffix
+	 */
+	public static String createId(String className, String suffix) {
 		String hostname;
 		try {
 			InetAddress inet = InetAddress.getLocalHost();

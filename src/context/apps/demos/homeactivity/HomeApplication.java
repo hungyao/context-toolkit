@@ -6,7 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import context.apps.ContextModel;
+import context.arch.discoverer.Discoverer;
 import context.arch.intelligibility.Explanation;
 import context.arch.intelligibility.presenters.Presenter;
 import context.arch.intelligibility.query.Query;
@@ -54,7 +54,7 @@ public class HomeApplication extends JFrame {
 		homeQueryPanel = new SimpleHomeQueryPanel(this);
 		topPanel.add(homeQueryPanel, BorderLayout.CENTER);
 		timeStepPanel = new TimeStepPanel(this);	
-		contextModel.setEnactorsReadyListener(timeStepPanel);
+//		contextModel.setEnactorsReadyListener(timeStepPanel);
 		topPanel.add(timeStepPanel, BorderLayout.EAST);
 		add(topPanel, BorderLayout.NORTH);
 		
@@ -68,7 +68,7 @@ public class HomeApplication extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		ContextModel.startDiscoverer(); // TODO uncomment
+		Discoverer.start();
 		HomeApplication f = new HomeApplication();
 		f.setVisible(true);
 	}

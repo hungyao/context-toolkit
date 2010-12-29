@@ -47,8 +47,8 @@ public class Generator extends Enactor {
 	 * since even though it does not have any EnactorReferences, it needs to save widget descriptions.
 	 */
 	@Override
-	public void start() throws EnactorException {
-		super.start();
+	public void startSubscriptionManager() throws EnactorException {
+		super.startSubscriptionManager();
 
 		// this was learned from the jumble in EnactorSubscriptionManager.init()
 		for (ComponentDescription cd : subscriptionManager.sendDiscovererAttributeQuery(widgetSubscriptionQueries[OUT_WIDGET_INDEX])) {

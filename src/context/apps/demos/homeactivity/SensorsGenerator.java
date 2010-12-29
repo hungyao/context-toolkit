@@ -27,6 +27,8 @@ public class SensorsGenerator extends Generator {
 		 */
 		String obsFilename = "demos/home-hmm/kasteren-jahmm-observations-test.seq";
 		allObservations = HmmSupervisedLearner.readObservationsSequencesFromFile(new File(obsFilename), SensorsWidget.FEATURES.length);
+		
+		start();
 	}
 	
 	public int numObservations() {

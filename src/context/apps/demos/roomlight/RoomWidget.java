@@ -9,7 +9,7 @@ import context.arch.widget.Widget;
  * @author Brian Y. Lim
  *
  */
-public class RoomWidget extends Widget {
+public final class RoomWidget extends Widget {
 
 	public static final String PRESENCE = "presence"; // regards to whether there are people in the room (number of people in the room > 0)
 	public static final String BRIGHTNESS = "brightness"; // regards to brightness detected (0 to 255)

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import context.arch.BaseObject;
 import context.arch.comm.DataObject;
 import context.arch.comm.DataObjects;
 import context.arch.comm.RequestObject;
@@ -59,7 +60,7 @@ import context.arch.widget.Widget;
  * @author Brian Y. Lim
  * 
  */
-public class Discoverer extends Widget {
+public final class Discoverer extends Widget {
 	
 	private static final Logger LOGGER = Logger.getLogger(Discoverer.class.getName());
 	static {LOGGER.setLevel(Level.WARNING);} // this should be set in a configuration file
@@ -494,8 +495,9 @@ public class Discoverer extends Widget {
 			String encoderClass, String decoderClass, 
 			String storageClass) {
 		super(clientClass, serverClass, serverPort, encoderClass, decoderClass,
-				storageClass, Discoverer.getId(Discoverer.CLASSNAME,serverPort), CLASSNAME);
-		initFull();
+				storageClass, Discoverer.createId(Discoverer.CLASSNAME,serverPort), CLASSNAME);
+//		initFull();
+		start(null);
 	}    
 
 	/**
@@ -517,7 +519,8 @@ public class Discoverer extends Widget {
 	public Discoverer(String clientClass, String serverClass, int serverPort, String encoderClass,
 			String decoderClass, boolean storageFlag) {          
 		super(clientClass, serverClass, serverPort, encoderClass, decoderClass, 
-				storageFlag, getId(CLASSNAME,serverPort), CLASSNAME);
+				storageFlag, createId(CLASSNAME,serverPort), CLASSNAME);
+		start(null);
 	}    
 
 	/**
@@ -564,12 +567,30 @@ public class Discoverer extends Widget {
 	/**
 	 * Constructor that sets up internal variables for maintaining
 	 * the list of widget attributes, callbacks and services.  It takes the 
-	 * widget id as a parameter
+	 * widget id as a parameter. Port set to an available one.
 	 *
 	 * @param id ID of the discoverer
 	 */
 	public Discoverer() {
-		this(null, null, -1, null, null, null);
+		this(null, null, BaseObject.findFreePort(), null, null, null);
+	}
+	
+	/**
+	 * Convenience method to start a Discoverer at an assigned port.
+	 * May fail if port is not free.
+	 * @param port at which to start the Discoverer
+	 * @return the Discoverer started, but it is not necessary to receive this instance 
+	 */
+	public static Discoverer start(int port) {
+		return new Discoverer(port);
+	}
+	
+	/**
+	 * Convenience method to start a Discoverer using a found free port.
+	 * @return the Discoverer started, but it is not necessary to receive this instance 
+	 */
+	public static Discoverer start() {
+		return new Discoverer(BaseObject.findFreePort());
 	}
 
 	@Override
@@ -637,7 +658,7 @@ public class Discoverer extends Widget {
 	 * 
 	 * @return AttributeNameValues containing the latest generator information
 	 */
-	protected Attributes queryGenerator(){
+	protected Attributes queryGenerator() {
 		return new Attributes();
 	}
 

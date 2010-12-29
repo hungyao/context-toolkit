@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import context.apps.ContextModel.EnactorsReadyListener;
 import context.arch.comm.DataObject;
 import context.arch.enactor.EnactorComponentInfo;
 import context.arch.enactor.EnactorListener;
@@ -17,8 +16,7 @@ import context.arch.intelligibility.hmm.HmmExplainer;
 import context.arch.intelligibility.query.Query;
 import context.arch.storage.Attributes;
 
-public class TimeStepPanel extends JPanel implements ActionListener, 
-EnactorsReadyListener, EnactorListener {
+public class TimeStepPanel extends JPanel implements ActionListener, EnactorListener {
 
 	private static final long serialVersionUID = 3516157109058541075L;
 
@@ -55,6 +53,8 @@ EnactorsReadyListener, EnactorListener {
 		add(forwardButton);
 		
 		MAX_STEP = contextModel.numTimeSteps() - 1;
+		
+		initSequence();
 	}
 	
 	/**
@@ -96,8 +96,7 @@ EnactorsReadyListener, EnactorListener {
 		viewer.presenter.render(explanation);
 	}
 
-	@Override
-	public void enactorsReady() {
+	public void initSequence() {
 		forwardButton.setEnabled(true);
 
 		// step forward multiple times to fill full sequence

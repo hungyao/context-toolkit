@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import context.apps.ContextModel;
+import context.arch.discoverer.Discoverer;
 import context.arch.enactor.Enactor;
 import context.arch.intelligibility.Explanation;
 import context.arch.intelligibility.presenters.QueryPanel;
@@ -18,6 +18,13 @@ import context.arch.intelligibility.query.QueryListener;
 import context.arch.intelligibility.reducers.ConjunctionReducer;
 import context.arch.intelligibility.reducers.FilteredCReducer;
 
+/**
+ * Intelligible version of the Hello Room tutorial application.
+ * It provides a GUI to allow the user to ask several types of questions, and
+ * displays generated explanations in a text area below.
+ * @author Brian Y. Lim
+ *
+ */
 public class HelloRoomIntelligible extends HelloRoom {
 	
 	/** Intelligibility UI */
@@ -25,24 +32,7 @@ public class HelloRoomIntelligible extends HelloRoom {
 	
 	public HelloRoomIntelligible() {
 		super();
-	}
-	
-	@Override
-	public void enactorsReady() {		
-		// setup UI components
-		ui.setVisible(true);
 		iui =  new IntelligibleUI(enactor);
-		
-		/*
-		 * start GUI
-		 */
-		JFrame frame = new JFrame("Hello Room Intelligible");
-		frame.add(ui, BorderLayout.NORTH);
-		frame.add(iui, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(new Dimension(320, 360));
-		frame.setLocationRelativeTo(null); // center of screen
-		frame.setVisible(true);
 	}
 	
 	/**
@@ -101,10 +91,20 @@ public class HelloRoomIntelligible extends HelloRoom {
 	}
 	
 	public static void main(String[] args) {
-		ContextModel.startDiscoverer();
+		Discoverer.start();
 		
 		HelloRoomIntelligible app = new HelloRoomIntelligible();
-		app.start();
+		
+		/*
+		 * start GUI
+		 */
+		JFrame frame = new JFrame("Hello Room Intelligible");
+		frame.add(app.ui, BorderLayout.NORTH);
+		frame.add(app.iui, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(new Dimension(320, 360));
+		frame.setLocationRelativeTo(null); // center of screen
+		frame.setVisible(true);
 	}
 
 }

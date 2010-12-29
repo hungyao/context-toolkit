@@ -8,7 +8,7 @@ import context.arch.storage.Attribute;
 import context.arch.storage.Attributes;
 import context.arch.widget.SequenceWidget;
 
-public class SensorsWidget extends SequenceWidget {
+public final class SensorsWidget extends SequenceWidget {
 	
 	public static final String CLASSNAME = SensorsWidget.class.getName();
 
@@ -30,6 +30,7 @@ public class SensorsWidget extends SequenceWidget {
 		
 	public SensorsWidget() {
 		super(CLASSNAME, CLASSNAME, HomeModel.SEQUENCE_LENGTH);
+		super.start(true);
 	}
 
 	@Override

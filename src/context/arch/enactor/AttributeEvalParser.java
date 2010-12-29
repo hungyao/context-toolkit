@@ -123,8 +123,8 @@ public class AttributeEvalParser<T extends Comparable<? super T>> {
 			
 			engine.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
 			
-			if (script != null) { return script.eval().toString(); }
-			else { return engine.eval(scriptText).toString(); } // uncompiled version; slower
+			if (script != null) { return script.eval().toString(); } // compiled version: faster
+			else { return engine.eval(scriptText).toString(); } // uncompiled version: slower
 			
 		} catch (ScriptException e) {
 			e.printStackTrace();

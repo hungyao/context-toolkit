@@ -153,7 +153,7 @@ public class J48Parser {
 	public static void main(String[] args) {
 		// load cModel and header from files
 		J48 cModel = (J48) ClassifierWrapper.loadClassifier("demos/imautostatus-dtree/imautostatus.model");
-		Instances header = ClassifierWrapper.loadHeader("demos/imautostatus-dtree/imautostatus-test.arff");
+		Instances header = ClassifierWrapper.loadDataset("demos/imautostatus-dtree/imautostatus-test.arff");
 //		Instance instance = header.instance(0); // use one instance for testing
 		
 		// then parse it

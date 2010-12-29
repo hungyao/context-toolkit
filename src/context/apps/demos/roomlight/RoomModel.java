@@ -1,6 +1,5 @@
 package context.apps.demos.roomlight;
 
-import context.apps.ContextModel;
 import context.arch.discoverer.query.AbstractQueryItem;
 import context.arch.enactor.Enactor;
 import context.arch.enactor.EnactorXmlParser;
@@ -13,7 +12,7 @@ import context.arch.widget.WidgetXmlParser;
  * @author Brian Y. Lim
  *
  */
-public class RoomModel extends ContextModel {
+public class RoomModel {
 	
 	Widget roomWidget;
 	Widget lightWidget;
@@ -42,52 +41,41 @@ public class RoomModel extends ContextModel {
 		/*
 		 * Room sensor Widget
 		 */
-		roomWidget = WidgetXmlParser.getWidget(
+		roomWidget = WidgetXmlParser.createWidget(
 				"demos/room-rules/room-widget.xml", 
 				room, // widgetId
 				roomConstAttValues);
-//		roomWidget.start(true);
-		addWidget(roomWidget);
 		
 		/*
 		 * Light actuator Widget and Service
 		 */
-		lightWidget = WidgetXmlParser.getWidget(
+		lightWidget = WidgetXmlParser.createWidget(
 				"demos/room-rules/light-widget.xml", 
 				lamp, // widgetId
 				lampConstAttValues);
 		lightService = new LightService(lightWidget, application);
 		lightWidget.addService(lightService);
-//		lightWidget.start(true);
-		addWidget(lightWidget);
 		
 		/*
 		 * Generator for RoomWidget.
 		 * Sets its attribute values via method invocation
 		 */
-		AbstractQueryItem<?,?> roomWidgetQuery = WidgetXmlParser.getWidgetSubscriptionQuery(
+		AbstractQueryItem<?,?> roomWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(
 				"demos/room-rules/room-widget.xml", 
 				room, // widgetId
 				roomConstAttValues);
 		roomGenerator = new RoomGenerator(
 				roomWidgetQuery,
 				room); // generatorId
-		addEnactor(roomGenerator);
 		
 		/*
 		 * Enactor to use rules about RoomWidget to update LightWidget
 		 */
-		roomEnactor = EnactorXmlParser.getEnactor(
+		roomEnactor = EnactorXmlParser.createEnactor(
 				"demos/room-rules/room-enactor.xml",
 				room + '_' + lamp, // enactorId
 				roomConstAttValues,  // for targeting in widget
 				lampConstAttValues); // for targeting out widget
-		addEnactor(roomEnactor);
-		
-		/*
-		 * Start widgets and enactors
-		 */
-		start();
 	}
 
 }

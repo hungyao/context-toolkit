@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import context.arch.BaseObject;
 import context.arch.comm.DataObject;
 import context.arch.comm.DataObjects;
@@ -53,6 +56,9 @@ import context.arch.util.Error;
  * @author Brian Y. Lim
  */
 public abstract class Widget extends BaseObject {
+	
+	private static final Logger LOGGER = Logger.getLogger(Widget.class.getName());
+	static {LOGGER.setLevel(Level.INFO);} // this should be set in a configuration file
 
 	/** Debug flag. Set to true to see debug messages. */
 	public static boolean DEBUG = false;
@@ -400,6 +406,8 @@ public abstract class Widget extends BaseObject {
 //				}
 //			}.start();
 		}
+		
+		LOGGER.info(getId() + " started (port = " + this.getPort() + ")");
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import context.arch.storage.Attribute;
 import context.arch.storage.Attributes;
 import context.arch.widget.SequenceWidget;
 
-public class ActivityWidget extends SequenceWidget {
+public final class ActivityWidget extends SequenceWidget {
 	
 	public static final String CLASSNAME = ActivityWidget.class.getName();
 	
@@ -14,6 +14,7 @@ public class ActivityWidget extends SequenceWidget {
 
 	public ActivityWidget() {
 		super(CLASSNAME, CLASSNAME, 5); // sequence length 5
+		super.start(true);
 	}
 
 	@Override

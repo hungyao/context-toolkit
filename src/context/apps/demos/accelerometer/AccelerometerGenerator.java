@@ -31,6 +31,8 @@ public class AccelerometerGenerator extends Generator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		start();
 	}
 
 	/**

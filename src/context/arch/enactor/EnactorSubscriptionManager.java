@@ -46,6 +46,10 @@ public class EnactorSubscriptionManager implements Handler {
 	 */
 	protected Enactor enactor;
 
+	/**
+	 * 
+	 * @param enactor needs to have been fully constructed, so do not instantiate EnactorSubscriptionManager in the constructor of Enactor
+	 */
 	EnactorSubscriptionManager(Enactor enactor) {
 		init(enactor.getId(), enactor.getPort());
 		setEnactor(enactor);
@@ -65,7 +69,7 @@ public class EnactorSubscriptionManager implements Handler {
 		//    ctkObject.findDiscoverer(false);
 		baseObjDelegate.start(true);
 
-	    AbstractQueryItem<?,?> q = new ORQueryItem(
+	    final AbstractQueryItem<?,?> q = new ORQueryItem(
 	    		RuleQueryItem.instance(new TypeElement(Widget.WIDGET_TYPE)),
 	    		RuleQueryItem.instance(new TypeElement(Server.SERVER_TYPE)) // added compatibility for Server aggregator type, Jan 2010 --Brian
 	    );

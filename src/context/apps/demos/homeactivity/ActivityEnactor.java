@@ -25,6 +25,8 @@ public class ActivityEnactor extends HmmEnactor<ObservationVector> {
 				ActivityWidget.ACTIVITY, 
 				new HmmKasteren(), 
 				"");
+
+		start();
 	}
 	
 	/**

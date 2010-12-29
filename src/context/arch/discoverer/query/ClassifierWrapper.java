@@ -58,7 +58,7 @@ public class ClassifierWrapper {
 		this.classifier = loadClassifier(classifierFileName);
 
 		// extract Instances dataset header from serialized file
-		this.header = loadHeader(headerFileName);
+		this.header = loadDataset(headerFileName);
 		
 		// extract outcome values
 		this.classAttribute = header.classAttribute();
@@ -275,13 +275,14 @@ public class ClassifierWrapper {
 	}
 	
 	/**
-	 * Extracts header in an empty Instances dataset from an .arff file
-	 * @param headerFileName
+	 * Extracts header in an empty Instances dataset from an .arff file.
+	 * It assumes that the last attribute is the class attribute
+	 * @param datasetFileName
 	 * @return
 	 */
-	public static Instances loadHeader(String headerFileName) {
+	public static Instances loadDataset(String datasetFileName) {
 		try {
-			Reader arffReader = new FileReader(headerFileName);
+			Reader arffReader = new FileReader(datasetFileName);
 			Instances header = new Instances(arffReader);
 			header.setClassIndex(header.numAttributes()-1); // last attribute is class
 			return header;

@@ -1,8 +1,11 @@
 package context.apps.demos.homeactivity;
 
-import context.apps.ContextModel;
-
-public class HomeModel extends ContextModel {
+/**
+ * 
+ * @author Brian Y. Lim
+ *
+ */
+public class HomeModel {
 	
 	public static final int SEQUENCE_LENGTH = 5;
 	
@@ -20,18 +23,12 @@ public class HomeModel extends ContextModel {
 		 */
 		sensorsWidget = new SensorsWidget();
 		activityWidget = new ActivityWidget();
-		addWidget(sensorsWidget);
-		addWidget(activityWidget);
 		
 		/*
 		 * Enactors
 		 */
 		sensorsGenerator = new SensorsGenerator();
 		activityEnactor = new ActivityEnactor();
-		addEnactor(sensorsGenerator);
-		addEnactor(activityEnactor);
-		
-		start();
 	}
 	
 	public int numTimeSteps() {

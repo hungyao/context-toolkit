@@ -192,7 +192,7 @@ public class QueryItemParser {
 	
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
-		AbstractQueryItem<?,?> query = WidgetXmlParser.getWidgetSubscriptionQuery(
+		AbstractQueryItem<?,?> query = WidgetXmlParser.createWidgetSubscriptionQuery(
 				"demos/room-rules/room-widget.xml", 
 				"Living Room", // widgetId
 				new Attributes()); // no constant attribute values to set
@@ -200,7 +200,7 @@ public class QueryItemParser {
 				new NonConstantAttributeElement(AttributeNameValue.instance("greater_test", 10)),
 				AttributeComparison.GREATER
 		);
-		Enactor enactor = EnactorXmlParser.getEnactor(
+		Enactor enactor = EnactorXmlParser.createEnactor(
 				"demos/room-rules/room-enactor.xml", 
 				"Living Room Ceiling", 
 				new Attributes() {{

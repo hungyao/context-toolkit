@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import context.arch.BaseObject;
 import context.arch.comm.DataObject;
@@ -43,6 +45,9 @@ import context.arch.widget.Widget.WidgetData;
  */
 @SuppressWarnings("unchecked")
 public abstract class Enactor {
+	
+	private static final Logger LOGGER = Logger.getLogger(Enactor.class.getName());
+	static {LOGGER.setLevel(Level.INFO);} // this should be set in a configuration file
 	
 	//we keep one listener and use a thread-safe multicaster
 	protected EnactorListener enactorListener;
@@ -86,11 +91,13 @@ public abstract class Enactor {
 		
 		setOutcomeName(outcomeName);
 		
-		setId(BaseObject.getId(getClassname(), shortId));
+		setId(BaseObject.createId(getClassname(), shortId));
+
+		this.hostname = BaseObject.getHostName();
+		this.port = BaseObject.findFreePort();
+//		subscriptionManager = new EnactorSubscriptionManager(this);
 		
-		/*
-		 * Explainer is lazy loaded (see getExplainer())
-		 */
+		// Explainer is lazy loaded (see getExplainer())
 	}
 	
 	/**
@@ -188,26 +195,37 @@ public abstract class Enactor {
 	 * Convenience method to start Enactor and the XML server its clients listen to.
 	 * Both started with found free ports.
 	 */
-	public void startAll() throws EnactorException {
-		start();
-		startXMLServer();
+	public void start() {
+		try {
+			startSubscriptionManager();
+			startXMLServer();
+		} catch (EnactorException e) {
+			e.printStackTrace();
+		}
+		
+//		final String threadName = getId();
+//		new Thread(threadName)  {
+//			@Override
+//			public void run() {
+//				try {
+//					Enactor.this.start();
+//					Enactor.this.startXMLServer();
+//					System.out.println("started enactor: " + getId());
+//				} catch (EnactorException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}.start();
+		
+		LOGGER.info(getId() + " started (port = " + this.getPort() + ")");
 	}
 
 	/**
 	 * Starts operation of this enactor. Before a call to
 	 * this method, the enactor is "dormant". This call registers
 	 * the enactor with the CTK and processes any necessary subscriptions.
-	 * 
-	 * @param port
 	 */
-	public void start(int port) throws EnactorException {
-		this.hostname = BaseObject.getHostName();
-		this.port = port;
-		
-		if (getId() == null) { // TODO: would this happen, where ID would not have been previously set? See constructor
-			//create default id if none was specified to start before method call			
-			setId(BaseObject.getId(this.getClass().getName(), port));
-		}
+	public void startSubscriptionManager() throws EnactorException {
 		subscriptionManager = new EnactorSubscriptionManager(this);
 
 		// register this first before adding to subscription manager that also registers references, parameters, etc,
@@ -223,14 +241,6 @@ public abstract class Enactor {
 			 * e.g. if Hibernate is not properly set up or the application doesn't want to suppor it
 			 */			
 		}
-	}
-	
-	/**
-	 * Automatically starts using a found free port.
-	 * @throws EnactorException
-	 */
-	public void start() throws EnactorException {
-		this.start(BaseObject.findFreePort());
 	}
 
 	/**
@@ -248,7 +258,7 @@ public abstract class Enactor {
 	}
 
 	/**
-	 * Automatically starts the XML server using a found free port.
+	 * Starts the XML server using a found free port.
 	 * @throws EnactorException
 	 */
 	public void startXMLServer() {
@@ -433,7 +443,7 @@ public abstract class Enactor {
 	}
 	
 	/**
-	 * Convenience method.
+	 * Convenience method to add reference, where the outcome value is extracted from er.
 	 * @param er
 	 */
 	protected void addReference(EnactorReference er) {
@@ -455,6 +465,9 @@ public abstract class Enactor {
 			enactorReferences.put(outcomeValue, refs);
 		}
 		refs.add(er);
+		
+		// also notify subscriptionManager
+//		subscriptionManager.addEnactorReference(er);
 	}
 	
 	protected void removeAllReferences() {

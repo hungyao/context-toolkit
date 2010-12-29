@@ -75,8 +75,8 @@ public class EnactorXmlParser {
 	 * Very basic enactor with no constant attribute values of in and out widgets set.
 	 * Id set as timestamp of creation.
 	 */
-	public static Enactor getEnactor(String filename) {
-		return getEnactor(filename,
+	public static Enactor createEnactor(String filename) {
+		return createEnactor(filename,
 				String.valueOf(System.currentTimeMillis()),
 				new Attributes(), // empty
 				new Attributes()
@@ -91,11 +91,11 @@ public class EnactorXmlParser {
 	 * @param outWidget to extract constant attribute values from, regarding out-widget
 	 * @return Enactor specified in XML file.
 	 */
-	public static Enactor getEnactor(String filename,
+	public static Enactor createEnactor(String filename,
 			Widget inWidget, Widget outWidget) {
 		String enactorId = inWidget.getId() + "_" + outWidget.getId();
 
-		return getEnactor(new EnactorXml(filename, enactorId), 
+		return createEnactor(new EnactorXml(filename, enactorId), 
 				inWidget.getConstantAttributes(), outWidget.getConstantAttributes());
 	}
 
@@ -107,12 +107,12 @@ public class EnactorXmlParser {
 	 * @param outConstAttValues constant attribute values regarding out-widget
 	 * @return Enactor specified in XML file.
 	 */
-	public static Enactor getEnactor(String filename, String enactorId,
+	public static Enactor createEnactor(String filename, String enactorId,
 			Attributes inConstAtts, Attributes outConstAtts) {
-		return getEnactor(new EnactorXml(filename, enactorId), inConstAtts, outConstAtts);
+		return createEnactor(new EnactorXml(filename, enactorId), inConstAtts, outConstAtts);
 	}
 
-	private static Enactor getEnactor(final EnactorXml exml, 
+	private static Enactor createEnactor(final EnactorXml exml, 
 			Attributes inConstAtts, Attributes outConstAtts) {
 
 		final Namespace ns = exml.rootNode.getNamespace();
@@ -124,15 +124,15 @@ public class EnactorXmlParser {
 			 * get stubs in and out widgets
 			 */
 			String inHref = exml.rootNode.getChild("InWidget", ns).getAttributeValue("href");
-			final ComponentDescription inWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, inHref), "", inConstAtts); // doesn't set id
+			final ComponentDescription inWidgetStub = WidgetXmlParser.createWidgetStub(new URL(exml.baseUrl, inHref), "", inConstAtts); // doesn't set id
 			String outHref = exml.rootNode.getChild("OutWidget", ns).getAttributeValue("href");
-			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
+			final ComponentDescription outWidgetStub = WidgetXmlParser.createWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
 
 			/*
 			 * extract subscription queries for widgets
 			 */
-			AbstractQueryItem<?, ?> inWidgetQuery = WidgetXmlParser.getWidgetSubscriptionQuery(inWidgetStub);
-			AbstractQueryItem<?, ?> outWidgetQuery = WidgetXmlParser.getWidgetSubscriptionQuery(outWidgetStub);
+			AbstractQueryItem<?, ?> inWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(inWidgetStub);
+			AbstractQueryItem<?, ?> outWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(outWidgetStub);
 
 			// get outcome name
 			String outcomeName = exml.rootNode.getChildText("OutcomeName", ns);
@@ -241,6 +241,9 @@ public class EnactorXmlParser {
 					return enactorName;
 				}
 			};
+			
+			// start the enactor
+			enactor.start();
 
 			return enactor;
 		} catch (MalformedURLException e) { e.printStackTrace(); }
@@ -254,8 +257,8 @@ public class EnactorXmlParser {
 	 * Very basic generator with no constant attribute values of out widget set.
 	 * Id set as timestamp of creation.
 	 */
-	public static Generator getGenerator(String filename) {
-		return getGenerator(
+	public static Generator createGenerator(String filename) {
+		return createGenerator(
 				new EnactorXml(
 						filename, 
 						String.valueOf(System.currentTimeMillis())),
@@ -263,14 +266,14 @@ public class EnactorXmlParser {
 				);
 	}
 
-	public static Generator getGenerator(String filename, Widget outWidget) {
+	public static Generator createGenerator(String filename, Widget outWidget) {
 		String enactorId = "_" + outWidget.getId();
 		EnactorXml exml = new EnactorXml(filename, enactorId);
 
-		return getGenerator(exml, outWidget.getConstantAttributes());
+		return createGenerator(exml, outWidget.getConstantAttributes());
 	}
 
-	private static Generator getGenerator(final EnactorXml exml, Attributes outConstAtts) {
+	private static Generator createGenerator(final EnactorXml exml, Attributes outConstAtts) {
 
 		final Namespace ns = exml.rootNode.getNamespace();
 
@@ -281,12 +284,12 @@ public class EnactorXmlParser {
 			 * get stubs for out widget
 			 */
 			String outHref = exml.rootNode.getChild("OutWidget", ns).getAttributeValue("href");
-			final ComponentDescription outWidgetStub = WidgetXmlParser.getWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
+			final ComponentDescription outWidgetStub = WidgetXmlParser.createWidgetStub(new URL(exml.baseUrl, outHref), "", outConstAtts);
 
 			/*
 			 * extract subscription query for widget
 			 */
-			AbstractQueryItem<?, ?> outWidgetQuery = WidgetXmlParser.getWidgetSubscriptionQuery(outWidgetStub);
+			AbstractQueryItem<?, ?> outWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(outWidgetStub);
 
 			// get outcome name
 			String outcomeName = exml.rootNode.getChildText("OutcomeName", ns);

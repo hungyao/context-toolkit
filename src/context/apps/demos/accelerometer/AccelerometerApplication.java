@@ -13,9 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import context.apps.ContextModel;
-import context.apps.ContextModel.EnactorsReadyListener;
 import context.arch.comm.DataObject;
+import context.arch.discoverer.Discoverer;
 import context.arch.enactor.EnactorComponentInfo;
 import context.arch.enactor.EnactorListener;
 import context.arch.enactor.EnactorParameter;
@@ -40,7 +39,7 @@ import context.arch.storage.Attributes;
  * @author Brian Y. Lim
  *
  */
-public class AccelerometerApplication extends JFrame implements EnactorListener, EnactorsReadyListener, QueryListener {
+public class AccelerometerApplication extends JFrame implements EnactorListener, QueryListener {
 
 	private static final long serialVersionUID = -5633392149457720659L;
 
@@ -74,8 +73,7 @@ public class AccelerometerApplication extends JFrame implements EnactorListener,
 		/* ------------------------------------------------
 		 * Context model, Enactor, Explainer
 		 */		
-		contextModel = new AccelerometerModel();	
-		contextModel.setEnactorsReadyListener(this);
+		contextModel = new AccelerometerModel();
 		
 		accelEnactor = contextModel.accelEnactor;
 		accelEnactor.addListener(this);
@@ -109,7 +107,7 @@ public class AccelerometerApplication extends JFrame implements EnactorListener,
 		setLocationRelativeTo(null); // positions frame in center of screen
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		scenarioComboBox.setEnabled(false);
+		scenarioComboBox.setSelectedIndex(0);
 		queryPanel.setVisible(false);
 	}
 	
@@ -164,19 +162,13 @@ public class AccelerometerApplication extends JFrame implements EnactorListener,
 	}
 
 	@Override
-	public void enactorsReady() {
-		scenarioComboBox.setEnabled(true);
-		scenarioComboBox.setSelectedIndex(0);
-	}
-
-	@Override
 	public void queryInvoked(Query query) {
 		Explanation explanation = explainer.getExplanation(query);
 		presenter.render(explanation);
 	}
 	
 	public static void main(String[] args) {
-		ContextModel.startDiscoverer();
+		Discoverer.start();
 		
 		AccelerometerApplication f = new AccelerometerApplication();
 		f.setVisible(true);

@@ -43,6 +43,12 @@ public class WidgetXmlParser {
 		private String classname;
 		private String id;
 		
+		/** 
+		 * Whether to register to the Discoverer.
+		 * Usually true, but null if just creating a stub
+		 */
+		private Boolean register = true;
+		
 		private Element rootNode;
 		
 		private WidgetXml(Document document, String id) {
@@ -67,27 +73,27 @@ public class WidgetXmlParser {
 		
 	}
 	
-	public static AbstractQueryItem<?,?> getWidgetSubscriptionQuery(String filename, String id, Attributes constAtts) {
-		return getWidgetSubscriptionQuery(
-				WidgetXmlParser.getWidgetStub(
+	public static AbstractQueryItem<?,?> createWidgetSubscriptionQuery(String filename, String id, Attributes constAtts) {
+		return createWidgetSubscriptionQuery(
+				WidgetXmlParser.createWidgetStub(
 						new WidgetXml(filename, id),
 						constAtts
 				));
 	}
 	
-	public static AbstractQueryItem<?,?> getWidgetSubscriptionQuery(Widget widget) {
-		return getWidgetSubscriptionQuery(
-				WidgetXmlParser.getWidgetStub(widget)
+	public static AbstractQueryItem<?,?> createWidgetSubscriptionQuery(Widget widget) {
+		return createWidgetSubscriptionQuery(
+				WidgetXmlParser.createWidgetStub(widget)
 				);
 	}
 	
 	/**
-	 * Gets a subcription query based on the name of the widget, and 
+	 * Gets a subscription query based on the name of the widget, and 
 	 * constant attribute values. The specified values help select the widget of interest
 	 * @param widgetStub a minimal description of the widget containing its name, id (maybe; but buggy now), and limited constant attributes with values.
 	 * @return an ANDQueryItem of multiple conditions to be satisfied to find this widget to subscribe to
 	 */
-	public static AbstractQueryItem<?,?> getWidgetSubscriptionQuery(ComponentDescription widgetStub) {
+	public static AbstractQueryItem<?,?> createWidgetSubscriptionQuery(ComponentDescription widgetStub) {
 		String widgetName = widgetStub.classname;
 //		String id = widgetStub.id; // may not have been set
 		Collection<AttributeNameValue<?>> constAtts = widgetStub.getConstantAttributes();
@@ -116,7 +122,7 @@ public class WidgetXmlParser {
 		return query;
 	}
 
-	public static ComponentDescription getWidgetStub(Widget widget) {		
+	public static ComponentDescription createWidgetStub(Widget widget) {		
 		ComponentDescription comp = new ComponentDescription();
 		comp.classname = widget.getClassname();
 		comp.id = widget.getId();
@@ -126,18 +132,19 @@ public class WidgetXmlParser {
 		return comp;
 	}
 
-	public static ComponentDescription getWidgetStub(final WidgetXml wxml, Attributes constAtts) {
-		Widget widget = WidgetXmlParser.getWidget(wxml, constAtts);
-		return WidgetXmlParser.getWidgetStub(widget);
+	public static ComponentDescription createWidgetStub(final WidgetXml wxml, Attributes constAtts) {
+		Widget widget = WidgetXmlParser.createWidget(wxml, constAtts);
+		return WidgetXmlParser.createWidgetStub(widget);
 	}
 	
-	public static ComponentDescription getWidgetStub(URL href, String widgetId, Attributes constAtts) {
+	public static ComponentDescription createWidgetStub(URL href, String widgetId, Attributes constAtts) {
 		WidgetXml wxml = new WidgetXml(getDocument(href), widgetId);
-		return WidgetXmlParser.getWidgetStub(wxml, constAtts);
+		wxml.register = null; // so that no widget not registered
+		return WidgetXmlParser.createWidgetStub(wxml, constAtts);
 	}
 	
-	public static Widget getWidget(String filename, String widgetId, Attributes constAtts) {
-		return getWidget(new WidgetXml(filename, widgetId), constAtts);
+	public static Widget createWidget(String filename, String widgetId, Attributes constAtts) {
+		return createWidget(new WidgetXml(filename, widgetId), constAtts);
 	}
 	
 	/**
@@ -147,8 +154,8 @@ public class WidgetXmlParser {
 	 * @param widgetId
 	 * @return
 	 */
-	public static Widget getWidget(String filename) {
-		return getWidget(new WidgetXml(
+	public static Widget createWidget(String filename) {
+		return createWidget(new WidgetXml(
 				filename, 
 				String.valueOf(System.currentTimeMillis())), 
 				new Attributes()); // empty constantAttVars map
@@ -160,7 +167,7 @@ public class WidgetXmlParser {
 	 * @param constAttValues <attName, value>
 	 * @return
 	 */
-	public static Widget getWidget(final WidgetXml wxml, final Attributes constAtts) {
+	public static Widget createWidget(final WidgetXml wxml, final Attributes constAtts) {
 		Widget widget = new Widget(
 				wxml.getFullId(), 
 				wxml.classname) {
@@ -192,7 +199,7 @@ public class WidgetXmlParser {
 			}
 		};
 		
-		widget.start(null); // to init after construction
+		widget.start(wxml.register); // to init and register to Discoverer after construction
 		return widget;
 	}
 	
