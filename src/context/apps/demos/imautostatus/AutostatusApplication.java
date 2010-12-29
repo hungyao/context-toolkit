@@ -142,7 +142,7 @@ public class AutostatusApplication {
 	 */
 	public static void main(String[] args) {		
 		Discoverer.start(); // need to start discoverer				
-		AutostatusApplication app = new AutostatusApplication("Bob");
+		new AutostatusApplication("Bob");
 	}
 
 }
