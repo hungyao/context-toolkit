@@ -1392,7 +1392,7 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 			return leaseEndNotified(data);
 		}
 		else if (methodType.equals(QUERY_DESCRIPTION)){
-			return getDescription();
+			return toDataObject();
 		}
 		/*else if (methodType.equals (DiscovererSubscriber.SUBSCRIPTION_CALLBACK)){
 	      return discovererSubscriptionNotification(data);
@@ -1808,7 +1808,7 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 		
 		// Get the description of this object (list of attributes,...)
 		Error error = null;
-		DataObject description = getDescription();
+		DataObject description = toDataObject();
 		try {
 			
 			DataObject result = userRequest(new RequestObject(description,Discoverer.DISCOVERER_REGISTRATION,discoverer.getHostname(),discoverer.getPort()));
@@ -1825,19 +1825,23 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 		return error;
 	}
 
+	/**
+	 * Get the ComponentDescription representation of the BaseObject
+	 * @return
+	 */
 	public ComponentDescription getComponentDescription() {
-		return ComponentDescription.fromDataObject(getDescription());
+		return ComponentDescription.fromDataObject(toDataObject());
 	}
 
 	/**
-	 * Returns the common description of the component.
+	 * Returns the common description of the component in DataObject form.
 	 *
 	 * @return DataObject It contains the component description
 	 * @see context.arch.discoverer.ComponentDescription
-	 * @see #getUserDescription()
+	 * @see #getUserDataObject()
 	 * @author Agathe
 	 */
-	public synchronized DataObject getDescription() {
+	public synchronized DataObject toDataObject() {
 		if (discoverer==null){
 			return null;
 		}
@@ -1871,7 +1875,7 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 			v1.addElement(regType);
 
 			//Get the specific description
-			DataObject doDescrip = getUserDescription();
+			DataObject doDescrip = getUserDataObject();
 			if (doDescrip != null) {
 				// Add the content of vDescrip to v1
 				for (DataObject child : doDescrip.getChildren()){
@@ -1909,7 +1913,7 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 	 * @see context.arch.discoverer.Discoverer
 	 * @author Agathe
 	 */
-	public DataObject getUserDescription(){
+	public DataObject getUserDataObject(){
 		// Does nothing
 		return null;
 	}
@@ -2075,7 +2079,7 @@ public class BaseObject implements MessageHandler, CommunicationsHandler {
 			return new Error("Discoverer not enabled");
 		}
 		else {
-			DataObject data = getDescription();
+			DataObject data = toDataObject();
 			debugprintln(DEBUG, "BaseObject <discovererUpdate>");
 
 			// Add the tag ID

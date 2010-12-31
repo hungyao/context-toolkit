@@ -40,7 +40,7 @@ public class RoomEnactor extends Enactor {
 				offQI, 
 				LightWidget.LIGHT_OFF);
 		er.addServiceInput(new ServiceInput("LightService", "lightOff"));
-		addReference(LightWidget.LIGHT_OFF, er);
+		addReference(er);
 		
 		// light on, and brightness dependent
 		er = new RoomEnactorReference( 
@@ -50,7 +50,7 @@ public class RoomEnactor extends Enactor {
 				new Attributes() {{
 					addAttribute("light", Integer.class);
 				}}));
-		addReference(LightWidget.LIGHT_ON, er);
+		addReference(er);
 		
 		start();
 	}

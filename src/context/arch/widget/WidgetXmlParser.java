@@ -81,6 +81,11 @@ public class WidgetXmlParser {
 				));
 	}
 	
+	/**
+	 * Convenience method to create a subscription query from a widget object. 
+	 * @param widget
+	 * @return
+	 */
 	public static AbstractQueryItem<?,?> createWidgetSubscriptionQuery(Widget widget) {
 		return createWidgetSubscriptionQuery(
 				WidgetXmlParser.createWidgetStub(widget)

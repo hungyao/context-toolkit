@@ -1450,10 +1450,10 @@ public abstract class Widget extends BaseObject {
 	 * This method overloads the BaseObject's getUserDescription method
 	 *
 	 * @return DataObject The description of the widget
-	 * @see #getWidgetDescription()
+	 * @see #getWidgetDataObject()
 	 * @author Agathe
 	 */
-	public DataObject getUserDescription(){
+	public DataObject getUserDataObject() {
 		// TO complete !!!!!
 		DataObject result;
 
@@ -1508,7 +1508,7 @@ public abstract class Widget extends BaseObject {
 		v.addElement(doSubs);
 
 		// Get getWidgetDescription
-		DataObject doDescrip = getWidgetDescription();
+		DataObject doDescrip = getWidgetDataObject();
 		if (doDescrip != null) {
 			for (DataObject temp : doDescrip.getChildren()){
 				v.addElement(temp);
@@ -1543,13 +1543,13 @@ public abstract class Widget extends BaseObject {
 	/**
 	 * This method returns the desciption specific to a widget.
 	 * By default, it returns the type of the object that is 'WIDGET' type
-	 * This method should be overloaded.
+	 * This method should be overridden to add more details if necessary.
 	 *
 	 * @return DataObject The DataObject containing the description of the widget
-	 * @see #getUserDescription()
+	 * @see #getUserDataObject()
 	 * @author Agathe
 	 */
-	public DataObject getWidgetDescription(){
+	public DataObject getWidgetDataObject() {
 		return null;
 	}
 

@@ -447,16 +447,8 @@ public abstract class Enactor {
 	 * @param er
 	 */
 	protected void addReference(EnactorReference er) {
-		addReference(er.getOutcomeValue(), er);
-	}
+		String outcomeValue = er.getOutcomeValue();
 
-	/**
-	 * 
-	 * @param er
-	 * @param outcomeValue value associated with this enactor reference condition
-	 * @return
-	 */
-	protected void addReference(String outcomeValue, EnactorReference er) {
 		er.setEnactor(this);
 		
 		List<EnactorReference> refs = enactorReferences.get(outcomeValue);

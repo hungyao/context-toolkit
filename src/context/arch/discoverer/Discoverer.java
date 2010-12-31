@@ -1002,7 +1002,7 @@ public final class Discoverer extends Widget {
 				// Add the subscriber
 				subscribers.add(sub);
 				// Update the dataModel to say that the discoverer has a new subscriber
-				ComponentDescription discoItself = ComponentDescription.fromDataObject (this.getDescription ());
+				ComponentDescription discoItself = ComponentDescription.fromDataObject (this.toDataObject ());
 				mediator.update (discoItself, getLease ());
 				DataObjects v = new DataObjects();
 				v.addElement(new DataObject(AbstractSubscriber.SUBSCRIBER_ID, sub.getSubscriptionId ()));

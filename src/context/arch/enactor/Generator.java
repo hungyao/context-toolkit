@@ -38,7 +38,8 @@ public class Generator extends Enactor {
 	 * Overridden to prevent adding of references.
 	 */
 	@Override
-	public void addReference(String outcomeValue, EnactorReference reference) {
+	@Deprecated
+	public void addReference(EnactorReference reference) {
 		// do nothing
 	}
 	

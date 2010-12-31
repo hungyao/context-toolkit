@@ -23,7 +23,7 @@ public class HmmEnactorReference<O extends Observation> extends EnactorReference
 	public HmmEnactorReference(HmmEnactor<O> enactor) {
 		super(enactor, 
 				new HmmQueryItem(enactor.getHMM()), 
-				null); // not associated with any single outcomeValue
+				"HmmOutcomeValue"); // not associated with any single outcomeValue
 		
 		this.hmmEnactor = enactor;
 		this.hmmWrapper = enactor.getHMM();

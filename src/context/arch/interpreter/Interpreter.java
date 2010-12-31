@@ -254,7 +254,7 @@ public abstract class Interpreter extends BaseObject {
 	/** 
 	 * Overloads the BaseObject method
 	 */ 
-	public DataObject getUserDescription(){
+	public DataObject getUserDataObject(){
 		DataObject result;
 
 		// Get the incoming attributes

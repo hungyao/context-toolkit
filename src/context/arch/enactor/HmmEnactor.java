@@ -85,19 +85,19 @@ public class HmmEnactor<O extends Observation> extends Enactor {
 	 */
 	@Override
 	@Deprecated
-	public void addReference(String outcomeValue, EnactorReference er) {
+	public void addReference(EnactorReference er) {
 //		throw new InvalidMethodException("ClassifierEnactor can only take one EnactorReference. Use setEnactorReference(EnactorReference er) instead.");
 		// too troublesome to throw exception, though that is good design.
 		
 		if (enactorReferences.size() >= 1) {			
 			enactorReferences.clear(); // remove previous entry
 		}
-		super.addReference(outcomeValue, er);		
+		super.addReference(er);		
 	}
 	
 	@SuppressWarnings("deprecation")
 	protected void setReference(HmmEnactorReference<O> er) {
-		addReference("singleton", er);
+		addReference(er);
 	}
 	
 	public EnactorReference getReference() {

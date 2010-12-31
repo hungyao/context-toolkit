@@ -10,14 +10,10 @@ public class ClassifierEnactorReference extends EnactorReference {
 	
 	protected Date whenClassified;
 	
-//	public ClassifierEnactorReference(ClassifierQueryItem classifierQuery) {
-//		super(classifierQuery, null); // not associated with any single outcomeValue
-//	}
-	
 	public ClassifierEnactorReference(ClassifierEnactor enactor) {
 		super(	enactor, 
 				new ClassifierQueryItem(enactor.getClassifier(), new ClassifierComparison()), 
-				null); // not associated with any single outcomeValue
+				"ClassifierOutcome"); // not associated with any single outcomeValue
 	}
 	
 	/**

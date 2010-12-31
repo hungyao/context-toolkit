@@ -641,7 +641,7 @@ public abstract class Server extends Widget implements Handler {
 	 *
 	 * @return DataObject The information common to all servers
 	 */
-	public DataObject getWidgetDescription(){
+	public DataObject getWidgetDataObject(){
 		DataObject result;
 
 		// Get the server non constant attributes
