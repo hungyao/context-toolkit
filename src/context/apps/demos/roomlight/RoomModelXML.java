@@ -17,6 +17,9 @@ public class RoomModelXML extends RoomModel {
 	public RoomModelXML(RoomApplication application) {
 		super();
 		
+		/*
+		 * Constant attribute values to fully describe widgets to instantiate
+		 */
 		Attributes roomConstAttValues = new Attributes() {{
 			addAttribute("room", room);
 		}};
