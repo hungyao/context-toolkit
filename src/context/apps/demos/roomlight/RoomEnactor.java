@@ -1,7 +1,5 @@
 package context.apps.demos.roomlight;
 
-import java.util.List;
-
 import context.arch.discoverer.ComponentDescription;
 import context.arch.discoverer.component.NonConstantAttributeElement;
 import context.arch.discoverer.query.AbstractQueryItem;
@@ -21,6 +19,7 @@ public class RoomEnactor extends Enactor {
 	
 	public static final short BRIGHTNESS_THRESHOLD = 100;
 
+	@SuppressWarnings("serial")
 	public RoomEnactor(AbstractQueryItem<?,?> inWidgetQuery, AbstractQueryItem<?,?> outWidgetQuery) {
 		super(inWidgetQuery, outWidgetQuery, "light", "");
 		
@@ -40,13 +39,20 @@ public class RoomEnactor extends Enactor {
 		EnactorReference er = new RoomEnactorReference( 
 				offQI, 
 				LightWidget.LIGHT_OFF);
+		er.addServiceInput(new ServiceInput("LightService", "lightOff"));
 		addReference(LightWidget.LIGHT_OFF, er);
 		
 		// light on, and brightness dependent
 		er = new RoomEnactorReference( 
 				new ElseQueryItem(offQI), 
 				LightWidget.LIGHT_ON);
+		er.addServiceInput(new ServiceInput("LightService", "lightOn", 
+				new Attributes() {{
+					addAttribute("light", Integer.class);
+				}}));
 		addReference(LightWidget.LIGHT_ON, er);
+		
+		start();
 	}
 	
 	private int light;
@@ -56,10 +62,6 @@ public class RoomEnactor extends Enactor {
 	}
 	
 	private class RoomEnactorReference extends EnactorReference {
-
-		public RoomEnactorReference(AbstractQueryItem<?,?> conditionQuery, String outcomeValue, List<ServiceInput> serviceInputs) {
-			super(RoomEnactor.this, conditionQuery, outcomeValue, serviceInputs);
-		}
 
 		public RoomEnactorReference(AbstractQueryItem<?,?> conditionQuery, String outcomeValue) {
 			super(RoomEnactor.this, conditionQuery, outcomeValue);
@@ -79,7 +81,7 @@ public class RoomEnactor extends Enactor {
 				 * psi = k*I^0.33
 				 * Scaled to 10
 				 */
-				double brightness = inWidgetState.getAttributeValue(RoomWidget.BRIGHTNESS);
+				short brightness = inWidgetState.getAttributeValue(RoomWidget.BRIGHTNESS);
 				light = (int)(10*Math.pow(BRIGHTNESS_THRESHOLD - brightness, 0.33) / LIGHT_SCALE); // brightness will never be lower than BRIGHTNESS_THRESHOLD
 			}
 			else {

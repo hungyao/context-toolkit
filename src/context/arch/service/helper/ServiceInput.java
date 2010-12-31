@@ -57,6 +57,20 @@ public class ServiceInput {
 		this.service = service;
 		this.function = function;
 		this.input = input;
+	}	
+
+	/**
+	 * Basic constructor that creates a serviceInput object for a synchronous services.
+	 * It contains the name of the service and function to execute and the input to 
+	 * the service. No input attributes parameters.
+	 *
+	 * @param service Name of the service to execute
+	 * @param function Name of the service function to execute
+	 */
+	public ServiceInput(String service, String function) {
+		this.service = service;
+		this.function = function;
+		this.input = new Attributes();
 	}
 
 	/**

@@ -51,7 +51,8 @@ public class RoomApplication extends JFrame implements ChangeListener, ListDataL
 		/*
 		 * Context modeling
 		 */
-		contextModel = new RoomModel(this);	
+		contextModel = new RoomModel(this);	// comment this line out if using XML version
+		//contextModel = new RoomModelXML(this); // uncomment code to use XML version of widgets and enactors
 		generator = contextModel.roomGenerator;
 		enactor = contextModel.roomEnactor;
 	}

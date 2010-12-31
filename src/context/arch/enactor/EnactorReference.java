@@ -41,7 +41,7 @@ public class EnactorReference {
 	/**
 	 * For interpreting actions in script form
 	 */
-	protected List<AttributeEvalParser<?>> assnParsers;
+	protected List<AttributeEvalParser<?>> attEvalParsers;
 	protected List<ServiceInput> serviceInputs;
 
 	/**
@@ -53,28 +53,15 @@ public class EnactorReference {
 	 */
 	public EnactorReference(Enactor enactor, AbstractQueryItem<?,?> conditionQuery, 
 			String outcomeValue, 
-			List<AttributeEvalParser<?>> assnParsers, 
+			List<AttributeEvalParser<?>> attEvalParsers, 
 			List<ServiceInput> serviceInputs) {
 		super();
 		setEnactor(enactor);
 		this.conditionQuery = conditionQuery; // requiring during initialization ensures that this is unlikely to be null
 		this.outcomeValue = outcomeValue;
 		
-		this.assnParsers = new ArrayList<AttributeEvalParser<?>>(assnParsers);
+		this.attEvalParsers = new ArrayList<AttributeEvalParser<?>>(attEvalParsers);
 		this.serviceInputs = new ArrayList<ServiceInput>(serviceInputs);
-	}
-
-	public EnactorReference(Enactor enactor, AbstractQueryItem<?,?> conditionQuery, 
-			String outcomeValue, 
-			List<ServiceInput> serviceInputs) {
-		super();
-		setEnactor(enactor);
-		this.conditionQuery = conditionQuery; // requiring during initialization ensures that this is unlikely to be null
-		this.outcomeValue = outcomeValue;
-		this.serviceInputs = serviceInputs;
-		
-		this.assnParsers = new ArrayList<AttributeEvalParser<?>>();
-		this.serviceInputs = new ArrayList<ServiceInput>();
 	}
 	
 	/**
@@ -87,8 +74,12 @@ public class EnactorReference {
 		this.conditionQuery = conditionQuery; // requiring during initialization ensures that this is unlikely to be null
 		this.outcomeValue = outcomeValue;
 		
-		this.assnParsers = new ArrayList<AttributeEvalParser<?>>();
+		this.attEvalParsers = new ArrayList<AttributeEvalParser<?>>();
 		this.serviceInputs = new ArrayList<ServiceInput>();
+	}
+	
+	public void addServiceInput(ServiceInput serviceInput) {
+		serviceInputs.add(serviceInput);
 	}
 
 	public void setEnactor(Enactor r) {
@@ -176,7 +167,7 @@ public class EnactorReference {
         timestamp = timestamp != null ? timestamp : System.currentTimeMillis();
         outAtts.addAttribute(Widget.TIMESTAMP, timestamp);
 		
-		for (AttributeEvalParser<?> assnParser : assnParsers) {
+		for (AttributeEvalParser<?> assnParser : attEvalParsers) {
 			outAtts.addAttribute(
 					assnParser.getAttributeName(), 
 					assnParser.getAttributeValue(inWidgetState));

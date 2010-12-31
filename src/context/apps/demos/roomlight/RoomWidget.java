@@ -26,6 +26,7 @@ public final class RoomWidget extends Widget {
 	public RoomWidget(String room) {
 		super(RoomWidget.class.getName(), RoomWidget.class.getName());
 		this.room = room;
+		super.start(true);
 	}
 	
 	@Override

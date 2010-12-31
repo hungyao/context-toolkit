@@ -25,6 +25,7 @@ public final class LightWidget extends Widget {
 	public LightWidget(String room) {
 		super(CLASSNAME, CLASSNAME);
 		this.room = room;
+		super.start(true);
 	}
 
 	@Override

@@ -2,57 +2,39 @@ package context.apps.demos.roomlight;
 
 import context.arch.discoverer.query.AbstractQueryItem;
 import context.arch.enactor.Enactor;
-import context.arch.enactor.EnactorXmlParser;
-import context.arch.storage.Attributes;
 import context.arch.widget.Widget;
 import context.arch.widget.WidgetXmlParser;
 
 /**
- * 
+ * Model class to contain widget and enactor models for the smart room demo application. 
  * @author Brian Y. Lim
  *
  */
 public class RoomModel {
 	
-	Widget roomWidget;
-	Widget lightWidget;
+	protected Widget roomWidget;
+	protected Widget lightWidget;
 
-	RoomGenerator roomGenerator;
-	Enactor roomEnactor;
+	protected RoomGenerator roomGenerator;
+	protected Enactor roomEnactor;
 	
-	private LightService lightService;
+	protected LightService lightService;
 
 	public static final String room = "Living Room";
 	public static final String lamp = "Ceiling";
 	public static final short BRIGHTNESS_MAX = 255;
 	public static final int LIGHT_MAX = 10;
 
-	@SuppressWarnings("serial")
 	public RoomModel(RoomApplication application) {
-		super();
-		
-		Attributes roomConstAttValues = new Attributes() {{
-			addAttribute("room", room);
-		}};
-		Attributes lampConstAttValues = new Attributes() {{
-			addAttribute("lamp", lamp);
-		}};
-		
 		/*
 		 * Room sensor Widget
 		 */
-		roomWidget = WidgetXmlParser.createWidget(
-				"demos/room-rules/room-widget.xml", 
-				room, // widgetId
-				roomConstAttValues);
+		roomWidget = new RoomWidget(room);
 		
 		/*
 		 * Light actuator Widget and Service
 		 */
-		lightWidget = WidgetXmlParser.createWidget(
-				"demos/room-rules/light-widget.xml", 
-				lamp, // widgetId
-				lampConstAttValues);
+		lightWidget = new LightWidget(room);
 		lightService = new LightService(lightWidget, application);
 		lightWidget.addService(lightService);
 		
@@ -60,10 +42,7 @@ public class RoomModel {
 		 * Generator for RoomWidget.
 		 * Sets its attribute values via method invocation
 		 */
-		AbstractQueryItem<?,?> roomWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(
-				"demos/room-rules/room-widget.xml", 
-				room, // widgetId
-				roomConstAttValues);
+		AbstractQueryItem<?,?> roomWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(roomWidget);
 		roomGenerator = new RoomGenerator(
 				roomWidgetQuery,
 				room); // generatorId
@@ -71,11 +50,13 @@ public class RoomModel {
 		/*
 		 * Enactor to use rules about RoomWidget to update LightWidget
 		 */
-		roomEnactor = EnactorXmlParser.createEnactor(
-				"demos/room-rules/room-enactor.xml",
-				room + '_' + lamp, // enactorId
-				roomConstAttValues,  // for targeting in widget
-				lampConstAttValues); // for targeting out widget
+		AbstractQueryItem<?,?> lightWidgetQuery = WidgetXmlParser.createWidgetSubscriptionQuery(lightWidget);
+		roomEnactor = new RoomEnactor(roomWidgetQuery, lightWidgetQuery); // for targeting out widget
 	}
+	
+	/**
+	 * Empty constructor for subclassing
+	 */
+	public RoomModel() {}
 
 }

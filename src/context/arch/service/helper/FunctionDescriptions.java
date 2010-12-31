@@ -137,7 +137,7 @@ public class FunctionDescriptions extends Vector<FunctionDescription> {
 	 * @return whether a function with the given name is in the container
 	 */
 	public boolean hasFunctionDescription(String name) {
-		for (int i=0; i<numFunctionDescriptions(); i++) {
+		for (int i = 0; i < numFunctionDescriptions(); i++) {
 			if (getFunctionDescriptionAt(i).getName().equals(name)) {
 				return true;
 			}
