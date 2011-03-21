@@ -31,7 +31,7 @@ public class RoomEnactor extends Enactor {
 		AbstractQueryItem<?, ?> offQI = 
 			new ORQueryItem(
 					RuleQueryItem.instance(
-							new NonConstantAttributeElement(AttributeNameValue.instance("presence", 0d))), // equal to 0; no one in the room, OR
+							new NonConstantAttributeElement(AttributeNameValue.instance("presence", 0))), // equal to 0; no one in the room, OR
 					RuleQueryItem.instance(
 							new NonConstantAttributeElement(AttributeNameValue.instance("brightness", BRIGHTNESS_THRESHOLD)), 
 							new AttributeComparison(AttributeComparison.Comparison.GREATER)) // brightness more than BRIGHTNESS_THRESHOLD
